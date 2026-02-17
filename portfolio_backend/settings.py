@@ -94,13 +94,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-
+# Static files (CSS, JavaScript, Images, PDFs)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Tells Django to look in your new static folder for CSS, JS, and images
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
