@@ -466,7 +466,9 @@ body.intro-active {
     background-color: var(--color-tertiary);
     z-index: 10;
     position: relative;
+    transition: all 0.3s ease; 
 }
+
 
 .more-info-toggle:hover,
 .download-resume-btn:hover {

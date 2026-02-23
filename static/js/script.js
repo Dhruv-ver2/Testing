@@ -465,12 +465,26 @@ function initAboutMeSection() {
     });
     aboutSection.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
 
+    // FIXED TOGGLE BUTTON LOGIC
     if (toggleButton && moreInfoContent) {
         toggleButton.addEventListener('click', () => {
             const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-            toggleButton.setAttribute('aria-expanded', !isExpanded);
-            moreInfoContent.setAttribute('aria-hidden', isExpanded);
-            moreInfoContent.classList.toggle('expanded');
+            
+            // Momentary fade out for a professional feel
+            toggleButton.style.opacity = '0';
+
+            setTimeout(() => {
+                // Toggle expansion state
+                toggleButton.setAttribute('aria-expanded', !isExpanded);
+                moreInfoContent.setAttribute('aria-hidden', isExpanded);
+                moreInfoContent.classList.toggle('expanded');
+                
+                // Swap text explicitly
+                toggleButton.textContent = !isExpanded ? 'Less About Me' : 'More About Me';
+                
+                // Fade back in
+                toggleButton.style.opacity = '1';
+            }, 200); 
         });
     }
 
@@ -480,7 +494,6 @@ function initAboutMeSection() {
             resumeButton.href = "https://www.linkedin.com/in/dhruv-vaishnav";
             resumeButton.target = "_blank";
         } else {
-            // Add click event for download functionality
             resumeButton.addEventListener('click', downloadResume);
         }
     }
@@ -529,7 +542,6 @@ function initAboutMeSection() {
 */
 function downloadResume(e) {
     e.preventDefault();
-    // Get the URL from the data attribute (which has the proper Django static path)
     const resumeUrl = document.getElementById('resume-btn').getAttribute('data-resume-url');
     const link = document.createElement('a');
     link.href = resumeUrl;
