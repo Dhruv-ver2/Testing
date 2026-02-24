@@ -530,6 +530,15 @@ function initAboutMeSection() {
     applyPlaceholderHoverEffect('hidden-venture-card');
     applyPlaceholderHoverEffect('top-secret-card');
 
+    // --- SMART TAB LOGIC ---
+    const judoLink = document.querySelector('#judo-card .project-btn');
+    if (judoLink) {
+        judoLink.addEventListener('click', () => {
+            // Assign a unique name to the main tab
+            window.name = "dhruv_portfolio_main";
+        });
+    }
+
     wrapHeadingsInSpans();
     setupAnimation();
     window.addEventListener('resize', setupAnimation);
@@ -550,3 +559,24 @@ function downloadResume(e) {
     link.click();
     document.body.removeChild(link);
 }
+
+// --- PROFESSIONAL CROSS-TAB COMMUNICATION ---
+const portfolioChannel = new BroadcastChannel('portfolio_sync');
+
+portfolioChannel.onmessage = (event) => {
+    if (event.data === 'REQUEST_FOCUS') {
+        // Immediately tell the Judo tab we are here
+        portfolioChannel.postMessage('MAIN_TAB_OPEN');
+        
+        // Bring this tab to the front
+        window.focus();
+        
+        // Visual indicator (optional): pulse the header so user knows they are back
+        const hero = document.querySelector('.hero-headline');
+        if (hero) {
+            hero.style.transition = 'transform 0.3s ease';
+            hero.style.transform = 'scale(1.02)';
+            setTimeout(() => { hero.style.transform = 'scale(1)'; }, 300);
+        }
+    }
+};

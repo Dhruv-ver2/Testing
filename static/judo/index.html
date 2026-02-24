@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Ensures the background canvas stays behind the content */
         #judo-background-canvas {
             position: fixed;
             top: 0;
@@ -92,7 +91,7 @@
                     Built with <strong>Python</strong> for core logic, <strong>Django</strong> for back-end scalability, and <strong>SQL</strong> for persistent data management. Judo is engineered to be more than just a bot—it's a scalable server infrastructure.
                 </p>
                 <div class="action-buttons">
-                    <a href="../index.html" class="back-home-btn">← Back to Portfolio</a>
+                    <a href="javascript:void(0)" id="back-to-portfolio" class="back-home-btn">← Back to Portfolio</a>
                 </div>
             </section>
         </div>
@@ -103,6 +102,33 @@
             const themeToggleButton = document.getElementById('theme-toggle-btn');
             const themeOptionsMenu = document.getElementById('theme-options-menu');
             const themeOptionButtons = document.querySelectorAll('.theme-option-btn');
+            const backBtn = document.getElementById('back-to-portfolio');
+            const syncChannel = new BroadcastChannel('portfolio_sync');
+
+            // --- SMART TAB LOGIC ---
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    let mainTabFound = false;
+
+                    // Listen for response from main tab
+                    syncChannel.onmessage = (event) => {
+                        if (event.data === 'MAIN_TAB_OPEN') {
+                            mainTabFound = true;
+                        }
+                    };
+
+                    // Shout to see if portfolio is open
+                    syncChannel.postMessage('REQUEST_FOCUS');
+
+                    // Check for response after short delay
+                    setTimeout(() => {
+                        if (!mainTabFound) {
+                            window.location.href = "/";
+                        }
+                    }, 150); 
+                });
+            }
 
             // --- Constellation Canvas Background Logic ---
             const canvas = document.getElementById('judo-background-canvas');
@@ -140,7 +166,6 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 particles = [];
-                // Particles will use the theme's accent color
                 const particleColor = getThemeColor('--judo-accent');
                 const numberOfParticles = (canvas.width * canvas.height) / 15000;
                 for (let i = 0; i < numberOfParticles; i++) {
@@ -187,13 +212,9 @@
             function applyTheme(themeName) {
                 document.body.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
                 document.documentElement.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
-                
                 document.body.classList.add(themeName);
                 document.documentElement.classList.add(themeName);
-                
                 localStorage.setItem('theme', themeName);
-
-                // Restart animation to update particle colors based on new theme
                 setTimeout(startAnimation, 100);
             }
 
@@ -220,7 +241,6 @@
 
             window.addEventListener('resize', startAnimation);
 
-            // Initialize correct theme and animation on load
             const savedTheme = localStorage.getItem('theme') || 'theme-lucid-blue';
             applyTheme(savedTheme);
             startAnimation();
