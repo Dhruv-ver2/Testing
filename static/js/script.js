@@ -560,18 +560,17 @@ function downloadResume(e) {
     document.body.removeChild(link);
 }
 
-// --- PROFESSIONAL CROSS-TAB COMMUNICATION ---
-const portfolioChannel = new BroadcastChannel('portfolio_sync');
+// --- TAB PREVIEW HEARTBEAT ---
+const syncChannel = new BroadcastChannel('portfolio_sync');
 
-portfolioChannel.onmessage = (event) => {
-    if (event.data === 'REQUEST_FOCUS') {
-        // 1. Tell the Judo tab that the main tab is open
-        portfolioChannel.postMessage('MAIN_TAB_OPEN');
-        
-        // 2. Redirect this tab to home to force the browser to bring it to the front
-        window.location.href = "/"; 
-        
-        // 3. Backup focus command
-        window.focus();
+syncChannel.onmessage = (event) => {
+    if (event.data === 'ARE_YOU_OPEN') {
+        // Shouting back "Yes, I'm here!"
+        syncChannel.postMessage('PORTFOLIO_IS_OPEN');
     }
 };
+
+// Also shout out periodically in case the Judo page missed the first message
+setInterval(() => {
+    syncChannel.postMessage('PORTFOLIO_IS_OPEN');
+}, 1000);
