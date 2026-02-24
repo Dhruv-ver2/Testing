@@ -111,22 +111,22 @@
                     e.preventDefault();
                     let mainTabFound = false;
 
-                    // Listen for response from main tab
+                    // Listen for confirmation from the main tab
                     syncChannel.onmessage = (event) => {
                         if (event.data === 'MAIN_TAB_OPEN') {
                             mainTabFound = true;
                         }
                     };
 
-                    // Shout to see if portfolio is open
+                    // Shout to see if any other tab has the portfolio open
                     syncChannel.postMessage('REQUEST_FOCUS');
 
-                    // Check for response after short delay
+                    // Fallback: If no response within 250ms, the tab is likely closed
                     setTimeout(() => {
                         if (!mainTabFound) {
                             window.location.href = "/";
                         }
-                    }, 150); 
+                    }, 250); 
                 });
             }
 
@@ -208,7 +208,6 @@
                 animate();
             }
 
-            // --- Theme Logic ---
             function applyTheme(themeName) {
                 document.body.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
                 document.documentElement.classList.remove('theme-lucid-blue', 'theme-metallic-sky');

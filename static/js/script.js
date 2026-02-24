@@ -565,18 +565,13 @@ const portfolioChannel = new BroadcastChannel('portfolio_sync');
 
 portfolioChannel.onmessage = (event) => {
     if (event.data === 'REQUEST_FOCUS') {
-        // Immediately tell the Judo tab we are here
+        // 1. Tell the Judo tab that the main tab is open
         portfolioChannel.postMessage('MAIN_TAB_OPEN');
         
-        // Bring this tab to the front
-        window.focus();
+        // 2. Redirect this tab to home to force the browser to bring it to the front
+        window.location.href = "/"; 
         
-        // Visual indicator (optional): pulse the header so user knows they are back
-        const hero = document.querySelector('.hero-headline');
-        if (hero) {
-            hero.style.transition = 'transform 0.3s ease';
-            hero.style.transform = 'scale(1.02)';
-            setTimeout(() => { hero.style.transform = 'scale(1)'; }, 300);
-        }
+        // 3. Backup focus command
+        window.focus();
     }
 };
