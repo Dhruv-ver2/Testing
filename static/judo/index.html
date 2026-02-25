@@ -92,7 +92,7 @@
                     Built with <strong>Python</strong> for core logic, <strong>Django</strong> for back-end scalability, and <strong>SQL</strong> for persistent data management. Judo is engineered to be more than just a bot—it's a scalable server infrastructure.
                 </p>
                 <div class="action-buttons">
-                    <a href="../index.html" class="back-home-btn">← Back to Portfolio</a>
+                    <a href="javascript:void(0)" id="back-to-portfolio" class="back-home-btn">← Back to Portfolio</a>
                 </div>
             </section>
         </div>
@@ -103,6 +103,38 @@
             const themeToggleButton = document.getElementById('theme-toggle-btn');
             const themeOptionsMenu = document.getElementById('theme-options-menu');
             const themeOptionButtons = document.querySelectorAll('.theme-option-btn');
+            
+            // --- SMART TAB & HEARTBEAT LOGIC ---
+            const backBtnContainer = document.querySelector('.action-buttons');
+            const syncChannel = new BroadcastChannel('portfolio_sync');
+            let lastHeartbeat = Date.now();
+
+            // 1. Initially hide the button for a cleaner UX
+            if (backBtnContainer) backBtnContainer.style.display = 'none';
+
+            // 2. Listen for messages from the main Portfolio tab
+            syncChannel.onmessage = (event) => {
+                if (event.data === 'PORTFOLIO_IS_OPEN') {
+                    lastHeartbeat = Date.now();
+                    // If main tab exists, hide this button
+                    if (backBtnContainer) backBtnContainer.style.display = 'none';
+                }
+            };
+
+            // 3. Monitor heartbeat: if main tab is closed, show button after 2 seconds
+            setInterval(() => {
+                if (Date.now() - lastHeartbeat > 2000) {
+                    if (backBtnContainer) {
+                        backBtnContainer.style.display = 'flex';
+                        // Ensure the link leads to the root portfolio path
+                        const backLink = document.getElementById('back-to-portfolio');
+                        if (backLink) backLink.setAttribute('href', '/');
+                    }
+                }
+            }, 1000);
+
+            // 4. Initial shout-out to see if main tab is already there
+            syncChannel.postMessage('ARE_YOU_OPEN');
 
             // --- Constellation Canvas Background Logic ---
             const canvas = document.getElementById('judo-background-canvas');
@@ -114,10 +146,7 @@
 
             class Particle {
                 constructor(x, y, size, color) {
-                    this.x = x;
-                    this.y = y;
-                    this.size = size;
-                    this.color = color;
+                    this.x = x; this.y = y; this.size = size; this.color = color;
                     this.vx = (Math.random() - 0.5) * 0.5;
                     this.vy = (Math.random() - 0.5) * 0.5;
                 }
@@ -128,8 +157,7 @@
                     ctx.fill();
                 }
                 update() {
-                    this.x += this.vx;
-                    this.y += this.vy;
+                    this.x += this.vx; this.y += this.vy;
                     if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                     if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
                     this.draw();
@@ -140,7 +168,6 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 particles = [];
-                // Particles will use the theme's accent color
                 const particleColor = getThemeColor('--judo-accent');
                 const numberOfParticles = (canvas.width * canvas.height) / 15000;
                 for (let i = 0; i < numberOfParticles; i++) {
@@ -183,17 +210,13 @@
                 animate();
             }
 
-            // --- Theme Logic ---
+            // --- Theme Switcher Logic ---
             function applyTheme(themeName) {
                 document.body.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
                 document.documentElement.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
-                
                 document.body.classList.add(themeName);
                 document.documentElement.classList.add(themeName);
-                
                 localStorage.setItem('theme', themeName);
-
-                // Restart animation to update particle colors based on new theme
                 setTimeout(startAnimation, 100);
             }
 
@@ -220,7 +243,6 @@
 
             window.addEventListener('resize', startAnimation);
 
-            // Initialize correct theme and animation on load
             const savedTheme = localStorage.getItem('theme') || 'theme-lucid-blue';
             applyTheme(savedTheme);
             startAnimation();
