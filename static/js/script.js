@@ -560,17 +560,31 @@ function downloadResume(e) {
     document.body.removeChild(link);
 }
 
-// --- TAB PREVIEW HEARTBEAT ---
-const syncChannel = new BroadcastChannel('portfolio_sync');
+// --- PROFESSIONAL CROSS-TAB SYNC ---
+const portfolioChannel = new BroadcastChannel('portfolio_sync');
 
-syncChannel.onmessage = (event) => {
+portfolioChannel.onmessage = (event) => {
+    // 1. Respond to "Are you open?" heartbeats
     if (event.data === 'ARE_YOU_OPEN') {
-        // Shouting back "Yes, I'm here!"
-        syncChannel.postMessage('PORTFOLIO_IS_OPEN');
+        portfolioChannel.postMessage('PORTFOLIO_IS_OPEN');
+    }
+    
+    // 2. Respond to Focus requests
+    if (event.data === 'REQUEST_FOCUS') {
+        portfolioChannel.postMessage('MAIN_TAB_OPEN');
+        window.focus();
+        
+        // Optional: Visual pulse to show user they are back
+        const hero = document.querySelector('.hero-headline');
+        if (hero) {
+            hero.style.transition = 'transform 0.3s ease';
+            hero.style.transform = 'scale(1.02)';
+            setTimeout(() => { hero.style.transform = 'scale(1)'; }, 300);
+        }
     }
 };
 
-// Also shout out periodically in case the Judo page missed the first message
+// Periodically broadcast presence
 setInterval(() => {
-    syncChannel.postMessage('PORTFOLIO_IS_OPEN');
+    portfolioChannel.postMessage('PORTFOLIO_IS_OPEN');
 }, 1000);
