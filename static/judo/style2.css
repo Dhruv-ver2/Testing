@@ -83,12 +83,14 @@ body {
 
 .judo-title-main {
     color: var(--judo-accent);
-    text-shadow: 0 0 15px var(--judo-glow);
+    /* REDUCED GLOW: Changed from 15px to 6px */
+    text-shadow: 0 0 6px var(--judo-glow);
     transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 body.theme-metallic-sky .judo-title-main {
-    text-shadow: 0 0 20px var(--judo-accent), 0 0 10px rgba(0, 229, 255, 0.5);
+    /* REDUCED GLOW: Changed from 20px/10px to 8px/4px */
+    text-shadow: 0 0 8px var(--judo-accent), 0 0 4px rgba(0, 229, 255, 0.4);
 }
 
 .judo-badge {
@@ -290,23 +292,21 @@ body.theme-metallic-sky .theme-option-btn:hover {
 */
 @media (max-width: 768px) {
     #judo-hero {
-        /* COVER TOP GAP: Reduced from 80px to 20px */
         padding: 20px 20px 40px 20px; 
     }
 
     .judo-header {
-        margin-top: 0; /* Ensures the container starts at the top of the padding */
+        margin-top: 0; 
     }
 
     .judo-badge {
-        /* Aligns badge height with the theme toggle */
         margin-top: 10px;
         margin-bottom: 5px;
     }
 
     .judo-header h1 {
         font-size: 2.5rem; 
-        margin-top: 5px; /* Minimizes gap between badge and text */
+        margin-top: 5px; 
         display: flex;
         flex-direction: column; 
         align-items: center;

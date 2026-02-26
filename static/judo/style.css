@@ -1,5 +1,5 @@
 /* ==========================================================================
- THEME VARIABLES (Synchronized with Main Portfolio)
+  THEME VARIABLES (Synchronized with Main Portfolio)
 ==========================================================================
 */
 :root {
@@ -31,7 +31,7 @@ body.theme-metallic-sky {
 }
 
 /* ==========================================================================
- BASE LAYOUT
+  BASE LAYOUT
 ==========================================================================
 */
 body {
@@ -71,7 +71,7 @@ body {
 }
 
 /* ==========================================================================
- HEADER & TYPOGRAPHY
+  HEADER & TYPOGRAPHY
 ==========================================================================
 */
 .judo-header h1 {
@@ -83,13 +83,11 @@ body {
 
 .judo-title-main {
     color: var(--judo-accent);
-    /* REDUCED GLOW: Changed from 15px to 6px */
     text-shadow: 0 0 6px var(--judo-glow);
     transition: color 0.4s ease, text-shadow 0.4s ease;
 }
 
 body.theme-metallic-sky .judo-title-main {
-    /* REDUCED GLOW: Changed from 20px/10px to 8px/4px */
     text-shadow: 0 0 8px var(--judo-accent), 0 0 4px rgba(0, 229, 255, 0.4);
 }
 
@@ -113,15 +111,21 @@ body.theme-metallic-sky .judo-title-main {
 }
 
 /* ==========================================================================
- ACTION BUTTONS
+  ACTION BUTTONS
 ==========================================================================
 */
+.judo-actions {
+    margin-bottom: 40px;
+}
+
 .judo-btn {
     padding: 12px 30px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 800;
     transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0 10px;
 }
 
 .judo-btn.primary {
@@ -149,7 +153,50 @@ body.theme-metallic-sky .judo-btn.primary {
 }
 
 /* ==========================================================================
- FEATURE GRID
+  SMART BACK BUTTON (Centered Logic)
+==========================================================================
+*/
+.action-buttons {
+    display: none; /* Managed by Heartbeat JS */
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    padding-bottom: 40px;
+    animation: fadeInCenter 0.6s ease forwards;
+}
+
+.back-home-btn {
+    color: var(--judo-accent);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.back-home-btn:hover {
+    text-shadow: 0 0 10px var(--judo-accent);
+    border-bottom: 2px solid var(--judo-accent);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeInCenter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+  FEATURE GRID
 ==========================================================================
 */
 .feature-grid {
@@ -197,7 +244,7 @@ body.theme-metallic-sky .judo-btn.primary {
 }
 
 /* ==========================================================================
- THEME SELECTOR UI
+  THEME SELECTOR UI
 ==========================================================================
 */
 .theme-selector-container {
@@ -269,25 +316,8 @@ body.theme-metallic-sky .theme-option-btn:hover {
     background: rgba(255,255,255,0.1);
 }
 
-.back-home-btn {
-    color: var(--judo-accent);
-    text-decoration: none;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s;
-    margin-top: 50px;
-    display: inline-block;
-    border-bottom: 2px solid transparent;
-}
-
-.back-home-btn:hover {
-    text-shadow: 0 0 10px var(--judo-accent);
-    border-bottom: 2px solid var(--judo-accent);
-}
-
 /* ==========================================================================
- MOBILE RESPONSIVENESS
+  MOBILE RESPONSIVENESS
 ==========================================================================
 */
 @media (max-width: 768px) {
@@ -295,36 +325,15 @@ body.theme-metallic-sky .theme-option-btn:hover {
         padding: 20px 20px 40px 20px; 
     }
 
-    .judo-header {
-        margin-top: 0; 
-    }
-
-    .judo-badge {
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
-
     .judo-header h1 {
         font-size: 2.5rem; 
-        margin-top: 5px; 
         display: flex;
         flex-direction: column; 
         align-items: center;
     }
 
-    .judo-title-main {
-        display: block; 
-        margin-bottom: 2px;
-    }
-
     .judo-title-sub {
-        display: block; 
         font-size: 1.8rem; 
-    }
-
-    .judo-subtitle {
-        font-size: 1rem;
-        padding: 0 10px;
     }
 
     .judo-actions {
@@ -337,21 +346,10 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .judo-btn {
         width: 80%;
         max-width: 300px;
-        text-align: center;
+        margin: 0;
     }
 
     .feature-grid {
-        margin: 40px auto;
         grid-template-columns: 1fr; 
-        padding: 0 10px;
-    }
-
-    .feature-box {
-        padding: 25px;
-    }
-
-    .theme-selector-container {
-        top: 15px;
-        right: 15px;
     }
 }
