@@ -44,6 +44,7 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             transition: background 0.4s ease;
+            overflow: hidden;
         }
 
         .status-container {
@@ -56,6 +57,12 @@
             border-radius: 24px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             margin: 20px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -69,18 +76,14 @@
             display: inline-block;
             padding: 6px 16px;
             border-radius: 50px;
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffb300;
+            background: rgba(13, 71, 161, 0.1);
+            color: var(--accent);
             font-weight: 700;
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 1.5rem;
-        }
-
-        .theme-metallic-sky .status-badge {
-            background: rgba(0, 229, 255, 0.1);
-            color: var(--accent);
+            border: 1px solid var(--accent);
         }
 
         p {
@@ -94,8 +97,13 @@
             color: var(--accent);
         }
 
-        .back-link {
+        .action-buttons {
             margin-top: 2rem;
+            display: none; /* Managed by Heartbeat JS */
+            justify-content: center;
+        }
+
+        .back-link {
             display: inline-block;
             text-decoration: none;
             color: var(--text-main);
@@ -106,29 +114,72 @@
             border-bottom: 2px solid var(--accent);
             padding-bottom: 4px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .back-link:hover {
             letter-spacing: 2px;
-            opacity: 0.7;
+            text-shadow: 0 0 8px var(--accent);
         }
     </style>
 </head>
 <body>
 
     <div class="status-container">
-        <div class="status-badge">Maintenance Mode</div>
+        <div class="status-badge">Under Development</div>
         <h1>Cryptography System</h1>
         <p>
-            This project is currently <span class="date-highlight">unavailable</span> due to ongoing development and minor technical refinements.
+            This project is currently <span class="date-highlight">unavailable</span> due to ongoing development and minor architectural refinements.
         </p>
         <p>
-            We are working to ensure the highest level of security and performance. 
             Expected to be fully operational by <span class="date-highlight">September 2026</span>.
         </p>
         
-        <a href="/" class="back-link">← Return to Portfolio</a>
+        <div class="action-buttons">
+            <a href="javascript:void(0)" id="back-to-portfolio" class="back-link">← Return to Portfolio</a>
+        </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const backBtnContainer = document.querySelector('.action-buttons');
+            const syncChannel = new BroadcastChannel('portfolio_sync');
+            let lastHeartbeat = Date.now();
+
+            // 1. Monitor Heartbeats from the main tab
+            syncChannel.onmessage = (event) => {
+                if (event.data === 'PORTFOLIO_IS_OPEN') {
+                    lastHeartbeat = Date.now();
+                    if (backBtnContainer) backBtnContainer.style.display = 'none';
+                }
+            };
+
+            // 2. Request initial status
+            syncChannel.postMessage('ARE_YOU_OPEN');
+
+            // 3. Smart Visibility Toggle
+            setInterval(() => {
+                if (Date.now() - lastHeartbeat > 2000) {
+                    if (backBtnContainer) {
+                        backBtnContainer.style.display = 'flex';
+                        const backLink = document.getElementById('back-to-portfolio');
+                        if (backLink) backLink.setAttribute('href', '/');
+                    }
+                }
+            }, 1000);
+
+            // 4. Focus Request Handler for the button
+            const backLink = document.getElementById('back-to-portfolio');
+            if (backLink) {
+                backLink.addEventListener('click', (e) => {
+                    // If we've detected the heartbeat recently, request focus instead of redirect
+                    if (Date.now() - lastHeartbeat < 2000) {
+                        e.preventDefault();
+                        syncChannel.postMessage('REQUEST_FOCUS');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
