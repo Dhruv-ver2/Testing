@@ -975,9 +975,9 @@ body.intro-active {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    flex-direction: column; /* Force multi-line stack */
+    flex-direction: column; 
     align-items: center;
-    gap: 1.2rem; /* Spacing between the three lines */
+    gap: 0.5rem; /* Reduced from 1.2rem to bring lines closer */
 }
 
 .footer-link {
@@ -988,7 +988,8 @@ body.intro-active {
 /* Line 1: Social Icons Styling */
 .footer-socials {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem; /* Space between GitHub and LinkedIn icons */
+    margin-bottom: 5px; /* Extra nudge to keep icons as the focus */
 }
 
 .footer-socials .footer-link i {
@@ -1023,7 +1024,7 @@ body.intro-active {
     font-size: 0.85rem;
     font-weight: 400;
     opacity: 0.5;
-    margin: 0;
+    margin-top: 0.5rem; /* Small gap before the final line */
     color: var(--color-text-main);
 }
 
