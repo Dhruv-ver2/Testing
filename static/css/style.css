@@ -956,3 +956,85 @@ body.intro-active {
         gap: 1rem;
     }
 }
+
+
+/* ==========================================================================
+   REFINED MULTI-LINE MINIMALIST FOOTER
+   ========================================================================== */
+.main-footer {
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 10;
+    /* Removed border-top line */
+    background: var(--color-card-bg);
+    backdrop-filter: blur(15px);
+    margin-top: 2rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Force multi-line stack */
+    align-items: center;
+    gap: 1.2rem; /* Spacing between the three lines */
+}
+
+.footer-link {
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+/* Line 1: Social Icons Styling */
+.footer-socials {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-socials .footer-link i {
+    font-size: 2rem; /* Larger icons as requested */
+    color: var(--color-text-main);
+    opacity: 0.8;
+}
+
+.footer-socials .footer-link:hover i {
+    color: var(--color-text-accent);
+    transform: translateY(-3px);
+    opacity: 1;
+}
+
+/* Line 2: Email Styling (Clean, No Bold) */
+.email-link {
+    font-family: 'Inter', sans-serif; /* Clean sans-serif font */
+    font-weight: 400; /* Normal weight, no boldness */
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.email-link:hover {
+    color: var(--color-text-accent);
+    opacity: 1;
+}
+
+/* Line 3: Copyright Styling */
+.footer-copyright {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.5;
+    margin: 0;
+    color: var(--color-text-main);
+}
+
+/* Metallic Sky Refinement */
+.theme-metallic-sky .main-footer {
+    background: transparent; /* Makes it blend perfectly without lines */
+}
+
+/* Ensure mobile layout stays the same since it's already vertical */
+@media (max-width: 768px) {
+    .main-footer {
+        padding: 2rem 1rem;
+    }
+}
