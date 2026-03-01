@@ -166,29 +166,63 @@
                 <a href="#" class="download-resume-btn" id="resume-btn" data-resume-url="{% static 'Dhruv_Vaishnav_Resume.pdf' %}">Download Resume</a>
                 <a href="{% url 'contact' %}" class="download-resume-btn" target="_blank" rel="noopener noreferrer">Contact Me</a>
             </div>
+
+            <div class="public-vault-wrapper" id="public-vault" style="margin-top: 12rem; position: relative; z-index: 2;">
+                <h2 class="section-title">Public Vault</h2>
+                <p class="vault-subtitle" style="margin-bottom: 3rem; opacity: 0.7;">A collection of open-source tools, automation scripts, and creative narratives.</p>
+                
+                <div class="vault-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <a href="/scripts-hub/" target="_blank" class="vault-card" id="vault-scripts">
+                        <div class="vault-content">
+                            <i class="ri-terminal-box-line"></i>
+                            <h3>Scripts Hub</h3>
+                            <p>Automated Python tools, system utilities, and logic-heavy scripts for developers.</p>
+                            <span class="vault-link-text">Access Toolset <i class="ri-arrow-right-up-line"></i></span>
+                        </div>
+                    </a>
+
+                    <a href="/manga-library/" target="_blank" class="vault-card" id="vault-manga">
+                        <div class="vault-content">
+                            <i class="ri-book-open-line"></i>
+                            <h3>Books & Stories</h3>
+                            <p>Original manga panels, character designs, and immersive narrative worlds.</p>
+                            <span class="vault-link-text">Read Library <i class="ri-arrow-right-up-line"></i></span>
+                        </div>
+                    </a>
+
+                    <div class="vault-card vault-card--locked">
+                        <div class="vault-content">
+                            <i class="ri-lock-password-line"></i>
+                            <h3>Encrypted</h3>
+                            <p>New venture currently in development. Decryption pending...</p>
+                            <span class="vault-link-text">Stay Tuned</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer class="main-footer">
-    <div class="footer-container">
-        <div class="footer-socials">
-            <a href="https://github.com/Dhruv-ver2" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="GitHub">
-                <i class="ri-github-fill"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/dhruv-vaishnav-102044375" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="LinkedIn">
-                <i class="ri-linkedin-box-fill"></i>
-            </a>
-        </div>
+        <div class="footer-container">
+            <div class="footer-socials">
+                <a href="https://github.com/Dhruv-ver2" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="GitHub">
+                    <i class="ri-github-fill"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/dhruv-vaishnav-102044375" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="LinkedIn">
+                    <i class="ri-linkedin-box-fill"></i>
+                </a>
+            </div>
 
-        <div class="footer-email">
-            <a href="mailto:dhruvvaishnav9321@gmail.com" class="footer-link email-link">
-                dhruvvaishnav9321@gmail.com
-            </a>
+            <div class="footer-email">
+                <a href="mailto:dhruvvaishnav9321@gmail.com" class="footer-link email-link">
+                    dhruvvaishnav9321@gmail.com
+                </a>
+            </div>
+            
+            <p class="footer-copyright">© 2026 Dhruv Vaishnav. All Rights Reserved.</p>
         </div>
-        
-        <p class="footer-copyright">© 2026 Dhruv Vaishnav. All Rights Reserved.</p>
-    </div>
-</footer>
+    </footer>
 
     <script src="{% static 'js/script.js' %}"></script>
 </body>

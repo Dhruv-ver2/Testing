@@ -411,15 +411,15 @@ body.intro-active {
     position: relative;
     z-index: 1;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: visible; /* Now the section stretches with the Vault */
 }
 
-#background-canvas {
+ #background-canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Force it to follow the parent's full height */
     z-index: -1;
     pointer-events: none;
 }
@@ -1038,4 +1038,89 @@ body.intro-active {
     .main-footer {
         padding: 2rem 1rem;
     }
+}
+
+/* ==========================================================================
+   PUBLIC VAULT - INTEGRATED STYLES
+   ========================================================================== */
+.public-vault-wrapper {
+    margin-top: 12rem;
+    position: relative;
+    z-index: 2;
+}
+
+.vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.vault-card {
+    position: relative;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-decoration: none !important;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vault-card i {
+    font-size: 3.5rem;
+    color: var(--color-text-accent);
+    margin-bottom: 1.5rem;
+    transition: transform 0.4s ease;
+}
+
+.vault-card h3 {
+    font-size: 1.8rem;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+}
+
+.vault-card p {
+    font-size: 0.95rem;
+    color: var(--color-text-main);
+    opacity: 0.7;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.vault-link-text {
+    font-weight: 700;
+    color: var(--color-text-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+/* Hover States - Integrated with your original logic */
+.vault-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px var(--color-card-shadow);
+    border-color: var(--color-light-blue-accent);
+}
+
+.vault-card:hover i {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+.vault-card--locked {
+    cursor: not-allowed;
+    opacity: 0.6;
+    filter: grayscale(1);
+}
+
+/* Theme Sync: Metallic Sky Specifics */
+.theme-metallic-sky .vault-card {
+    background: rgba(26, 35, 126, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.theme-metallic-sky .vault-card:hover {
+    box-shadow: 0 0 25px rgba(129, 212, 250, 0.2);
 }
