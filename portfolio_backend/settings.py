@@ -14,10 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-default-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # ✅ FIXED: Added localhost and 127.0.0.1 for development
-ALLOWED_HOSTS = ['.vercel.app', 'now.sh', '127.0.0.1', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -65,13 +65,9 @@ WSGI_APPLICATION = 'portfolio_backend.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.parse(
-        "postgresql://neondb_owner:npg_c7JveNn8BfbK@ep-hidden-base-a104ind1-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
     )
-}
-
-DATABASES['default']['OPTIONS'] = {
-    'sslmode': 'require',
 }
 
 # Password validation
