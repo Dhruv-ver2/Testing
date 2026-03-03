@@ -1041,7 +1041,7 @@ body.intro-active {
 }
 
 /* ==========================================================================
-   PUBLIC VAULT - INTEGRATED STYLES
+   PUBLIC VAULT - REFINED LOGIC
    ========================================================================== */
 .public-vault-wrapper {
     margin-top: 12rem;
@@ -1056,87 +1056,61 @@ body.intro-active {
 }
 
 .vault-card {
-    /* Refinement: Making cards non-transparent to block particles */
     background: var(--color-tertiary) !important; 
     border: 1px solid var(--color-card-border);
     border-radius: 20px;
     padding: 3rem 2rem;
     text-decoration: none !important;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    z-index: 5; /* Ensures they sit firmly above the canvas */
+    z-index: 5;
 }
 
 .vault-card i {
     font-size: 3.5rem;
     color: var(--color-text-accent);
     margin-bottom: 1.5rem;
-    transition: transform 0.4s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.vault-card h3 {
-    font-size: 1.8rem;
-    color: var(--color-text-main);
-    margin-bottom: 1rem;
-}
-
-.vault-card p {
-    font-size: 0.95rem;
-    color: var(--color-text-main);
-    opacity: 0.7;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-}
-
-.vault-link-text {
-    font-weight: 700;
-    color: var(--color-text-accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-}
-
-/* Hover States - Integrated with your original logic */
-.vault-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px var(--color-card-shadow);
+/* --- REFINEMENT: DISABLE HOVER POP-UP FOR SCRIPTS --- */
+#vault-scripts:hover {
+    transform: none !important; /* Stays flat on hover */
     border-color: var(--color-light-blue-accent);
+    box-shadow: 0 0 20px rgba(129, 212, 250, 0.15); /* Subtle glow without lift */
 }
 
-.vault-card--locked:hover {
-    transform: none !important; 
-    box-shadow: none !important;
-    border-color: var(--color-card-border) !important;
+/* --- REFINEMENT: POP-UP ONLY ON CLICK (ACTIVE STATE) --- */
+#vault-scripts:active {
+    transform: translateY(-8px) scale(1.02) !important; /* The "Pop" happens here */
+    box-shadow: 0 15px 30px var(--color-card-shadow);
+    transition: transform 0.1s ease; /* Faster response for click */
 }
 
+/* --- THEME SYNC: METALLIC SKY --- */
+.theme-metallic-sky #vault-scripts:hover {
+    box-shadow: 0 0 25px -5px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .vault-card:hover i {
+    color: var(--color-light-blue-accent);
+    text-shadow: 0 0 15px var(--color-light-blue-accent);
+}
+
+/* --- LOCKED CARDS LOGIC --- */
 .vault-card--locked {
     cursor: not-allowed;
     opacity: 0.6;
     filter: grayscale(1);
-    transform: none !important; /* No movement */
-    box-shadow: none !important; /* No extra shadow */
-    pointer-events: none; /* Disables all interactions */
+    transform: none !important;
+    pointer-events: none;
 }
 
-#vault-scripts:hover {
-    border-color: var(--color-light-blue-accent);
-    box-shadow: 0 20px 40px var(--color-card-shadow);
-    transform: translateY(-10px);
-}
-
-/* Syncing Vault Card Glow with Project Card Glow */
-.theme-metallic-sky .vault-card:hover {
-    box-shadow: 0 0 25px -5px var(--color-light-blue-accent);
-    border-color: var(--color-light-blue-accent);
-}
-
-/* Ensuring the Icon inside also glows */
-.theme-metallic-sky .vault-card:hover i {
-    color: var(--color-light-blue-accent);
-    text-shadow: 0 0 15px var(--color-light-blue-accent);
-    transform: scale(1.1);
-}
+/* General Text Styles */
+.vault-card h3 { font-size: 1.8rem; color: var(--color-text-main); margin-bottom: 1rem; }
+.vault-card p { font-size: 0.95rem; color: var(--color-text-main); opacity: 0.7; line-height: 1.6; margin-bottom: 2rem; text-align: center; }
+.vault-link-text { font-weight: 700; color: var(--color-text-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
