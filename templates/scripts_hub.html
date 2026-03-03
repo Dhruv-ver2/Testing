@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scripts Hub | Dhruv Vaishnav</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .terminal-container {
+            max-width: 900px;
+            margin: 100px auto;
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+        .terminal-header {
+            background: #161b22;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #30363d;
+        }
+        .window-dots { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .terminal-title { margin-left: 20px; color: #8b949e; font-size: 0.9rem; }
+        .terminal-body { padding: 25px; color: #e6edf3; min-height: 400px; }
+        .code-block { background: #010409; padding: 15px; border-radius: 6px; margin-bottom: 20px; position: relative; }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: transparent; border: 1px solid #30363d; color: #8b949e; cursor: pointer; padding: 5px 10px; border-radius: 4px; transition: 0.3s; }
+        .copy-btn:hover { color: #58a6ff; border-color: #58a6ff; }
+        .py-keyword { color: #ff7b72; } .py-func { color: #d2a8ff; } .py-string { color: #a5d6ff; }
+    </style>
+</head>
+<body class="theme-metallic-sky">
+    <canvas id="background-canvas" style="position:fixed; z-index:-1;"></canvas>
+
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="window-dots">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+            </div>
+            <span class="terminal-title">dhruv@portfolio: ~/scripts-hub</span>
+        </div>
+        <div class="terminal-body">
+            <p style="color: #7ee787; margin-bottom: 20px;">$ cat automation_scripts.py</p>
+            
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre><code><span class="py-keyword">import</span> os
+<span class="py-keyword">def</span> <span class="py-func">clean_system</span>():
+    <span class="py-string">"""Automates temp file cleanup"""</span>
+    print(<span class="py-string">"Initializing optimization..."</span>)
+    # Logic for Python automation...</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.innerText;
+            navigator.clipboard.writeText(code);
+            btn.innerText = "Copied!";
+            setTimeout(() => { btn.innerText = "Copy"; }, 2000);
+        }
+    </script>
+</body>
+</html>
