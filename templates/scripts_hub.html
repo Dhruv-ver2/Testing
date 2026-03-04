@@ -3,27 +3,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SCRIPTS_ARCHIVE // DHRUV</title>
+    <title>SCRIPTS_HUB // DHRUV</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    
     <style>
         :root {
+            /* Default Dark Theme */
+            --bg-color: #010409;
             --blade-bg: rgba(13, 17, 23, 0.9);
-            --accent-glow: #3b82f6;
+            --text-main: #ffffff;
             --text-dim: #8b949e;
+            --accent-glow: #3b82f6;
             --code-bg: #000;
         }
 
-        body {
-            background: #010409;
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            padding: 5rem 10%;
-            line-height: 1.6;
+        /* Theme Toggler Styles (Matching Main Page) */
+        body.light-theme {
+            --bg-color: #f6f8fa;
+            --blade-bg: #ffffff;
+            --text-main: #1f2328;
+            --text-dim: #656d76;
+            --accent-glow: #0969da;
+            --code-bg: #f6f8fa;
         }
 
-        .archive-title { font-size: 3rem; margin-bottom: 4rem; letter-spacing: -1px; }
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            padding: 5rem 10%;
+            transition: all 0.3s ease;
+        }
 
+        /* Title Styling */
+        .archive-title { 
+            font-family: 'Book Antiqua', 'Palatino', 'serif'; 
+            font-size: 3.5rem; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .category-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 4rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: transparent;
+            border: 1px solid var(--text-dim);
+            color: var(--text-main);
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        /* Rectangular Card (Blade) */
         .script-blade {
             background: var(--blade-bg);
             border: 1px solid rgba(255,255,255,0.1);
@@ -34,13 +80,9 @@
             cursor: pointer;
         }
 
-        .blade-header {
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        body.light-theme .script-blade { border-color: rgba(0,0,0,0.1); }
 
+        .blade-header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
         .blade-title { font-family: 'JetBrains Mono'; color: var(--accent-glow); font-weight: 500; }
 
         .blade-content {
@@ -48,193 +90,113 @@
             padding: 0 2rem;
             opacity: 0;
             transition: all 0.5s ease;
-            border-top: 0px solid transparent;
-        }
-
-        .script-blade.active {
-            border-color: var(--accent-glow);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
-            cursor: default;
         }
 
         .script-blade.active .blade-content {
-            max-height: 3000px;
+            max-height: 2000px;
             padding: 2rem;
             opacity: 1;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
-        .meta-item h4 { color: var(--accent-glow); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
-        .meta-item p { font-size: 0.9rem; color: var(--text-dim); }
-
+        /* Code & UI Elements */
         .code-box {
             background: var(--code-bg);
             padding: 1.5rem;
             border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.05);
             overflow-x: auto;
         }
 
         .copy-action {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: absolute; top: 10px; right: 10px;
             background: rgba(59, 130, 246, 0.1);
-            color: var(--accent-glow);
             border: 1px solid var(--accent-glow);
+            color: var(--accent-glow);
             padding: 4px 12px;
             font-size: 0.65rem;
             cursor: pointer;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: 0.3s;
         }
 
         .exec-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: transparent;
-            border: 1px solid var(--accent-glow);
-            color: var(--accent-glow);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 2rem;
-        }
-
-        .exec-btn:hover {
-            background: var(--accent-glow);
-            color: white;
-            box-shadow: 0 0 20px var(--accent-glow);
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 24px; border: 1px solid var(--accent-glow);
+            color: var(--accent-glow); text-decoration: none;
+            font-size: 0.75rem; font-weight: 600; margin-top: 2rem;
+            background: transparent; cursor: pointer;
         }
 
         .execution-panel {
-            display: none;
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(59, 130, 246, 0.05);
-            border-left: 2px solid var(--accent-glow);
-        }
-
-        .protocol-list {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            padding-left: 1.2rem;
-            margin: 0;
-        }
-
-        .protocol-list li { margin-bottom: 8px; }
-
-        .minimize-btn {
-            background: transparent;
-            border: 1px solid var(--text-dim);
-            color: var(--text-dim);
-            padding: 6px 18px;
-            cursor: pointer;
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            text-transform: uppercase;
+            display: none; margin-top: 1.5rem; padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.05); border-left: 2px solid var(--accent-glow);
         }
     </style>
 </head>
-<body>
-    <h1 class="archive-title">SCRIPTS<span style="color:var(--accent-glow)">_</span>HUB</h1>
+<body class="dark-theme">
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i id="theme-icon" class="ri-moon-line"></i>
+    </button>
 
-    <div class="script-blade" onclick="this.classList.add('active')">
+    <h1 class="archive-title">Scripts Hub</h1>
+    <p class="category-subtitle">General Python automation Scripts</p>
+
+    <div class="script-blade" onclick="toggleBlade(this)">
         <div class="blade-header">
             <div>
-                <span class="blade-title">0x001_VOICE_GREET</span>
-                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">Vocal AI greeting synchronized with system-time cycles.</p>
+                <span class="blade-title">0x001_VOCAL_GREETING</span>
+                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">AI Vocal engine for context-aware system greetings.</p>
             </div>
-            <i class="ri-arrow-right-s-line"></i>
+            <i class="ri-arrow-down-s-line"></i>
         </div>
 
-        <div class="blade-content">
-            <div class="meta-grid">
-                <div class="meta-item">
-                    <h4>Logic Description</h4>
-                    <p>Analyzes 24-hour time formatting to provide context-aware vocal greetings via an automated speech engine.</p>
-                </div>
-                <div class="meta-item">
-                    <h4>Requirements</h4>
-                    <p>Python 3.10+ <br> Library: <code style="color: var(--accent-glow);">pip install pyttsx3</code></p>
-                </div>
-            </div>
-
-            <div class="code-box" id="code-001">
+        <div class="blade-content" onclick="event.stopPropagation()">
+            <div class="code-box">
                 <button class="copy-action" onclick="fetchAndCopy('{% static 'scripts/script_vocal_greeting.txt' %}', this)">
                     <i class="ri-file-copy-line"></i> Copy_Full_Source
                 </button>
-                <pre><code><span style="color: #ff7b72;">import</span> pyttsx3
-<span style="color: #ff7b72;">from</span> datetime <span style="color: #ff7b72;">import</span> datetime <span style="color: #ff7b72;">as</span> dt
-
-<span style="color: #8b949e;"># [ Full script available via Copy_Full_Source button ]</span>
-<span style="color: #ff7b72;">def</span> <span style="color: #d2a8ff;">greet</span>(hour, minute):
-    <span style="color: #ff7b72;">if</span> 0 <= hour <= 4: <span style="color: #ff7b72;">return</span> <span style="color: #a5d6ff;">"Very Good Morning"</span>
-    <span style="color: #8b949e;"># ... rest of logic ...</span></code></pre>
+                <pre><code># [ Full Source capturing from script_vocal_greeting.txt ]
+import pyttsx3
+from datetime import datetime as dt
+# ... logic preview ...</code></pre>
             </div>
 
-            <button class="exec-btn" onclick="toggleExecution('protocol-001')">
+            <button class="exec-btn" onclick="togglePanel('protocol-001')">
                 <i class="ri-terminal-box-line"></i> Execution Protocol
             </button>
 
             <div id="protocol-001" class="execution-panel">
-                <h4 style="color: var(--accent-glow); font-size: 0.8rem; margin-bottom: 1rem;">[ MANUAL_DEPLOYMENT_STEPS ]</h4>
-                <ol class="protocol-list">
-                    <li>Click <strong>Copy_Full_Source</strong> to capture the complete logic.</li>
-                    <li>Save the content locally as <code>greet.py</code>.</li>
-                    <li>Open Terminal/CMD and install dependencies: <code>pip install pyttsx3</code>.</li>
-                    <li>Execute: <code>python greet.py</code>.</li>
-                    <li><strong>Pro-Tip:</strong> Automate this by adding the script to your OS Startup directory.</li>
-                </ol>
+                <h4>[ INSTRUCTIONS ]</h4>
+                <p>1. Copy code to <code>greet.py</code><br>2. Run <code>pip install pyttsx3</code><br>3. Execute <code>python greet.py</code></p>
             </div>
-
-            <button class="minimize-btn" onclick="event.stopPropagation(); this.parentElement.parentElement.classList.remove('active')">
-                <i class="ri-arrow-up-s-line"></i> COLLAPSE_MODULE
-            </button>
         </div>
     </div>
 
-    <script src="{% static 'js/script.js' %}"></script>
     <script>
-        // Fetches code from text file and copies to clipboard
-        async function fetchAndCopy(fileUrl, btn) {
-            try {
-                const response = await fetch(fileUrl);
-                const fullCode = await response.text();
-                await navigator.clipboard.writeText(fullCode);
-                
-                const originalContent = btn.innerHTML;
-                btn.innerHTML = '<i class="ri-check-line"></i> FULL_CODE_COPIED';
-                btn.style.borderColor = '#4ade80';
-                btn.style.color = '#4ade80';
-                
-                setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                    btn.style.borderColor = 'var(--accent-glow)';
-                    btn.style.color = 'var(--accent-glow)';
-                }, 2500);
-            } catch (err) {
-                btn.innerText = "FETCH_ERROR";
-            }
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('light-theme');
+            icon.className = body.classList.contains('light-theme') ? 'ri-sun-line' : 'ri-moon-line';
         }
 
-        // Toggles visibility of instruction panels
-        function toggleExecution(id) {
+        function toggleBlade(element) {
+            element.classList.toggle('active');
+        }
+
+        function togglePanel(id) {
             const panel = document.getElementById(id);
-            if (panel.style.display === "none" || panel.style.display === "") {
-                panel.style.display = "block";
-            } else {
-                panel.style.display = "none";
-            }
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        async function fetchAndCopy(url, btn) {
+            try {
+                const response = await fetch(url);
+                const text = await response.text();
+                await navigator.clipboard.writeText(text);
+                btn.innerText = "COPIED!";
+                setTimeout(() => btn.innerText = "Copy_Full_Source", 2000);
+            } catch (e) { btn.innerText = "FETCH_ERROR"; }
         }
     </script>
 </body>
