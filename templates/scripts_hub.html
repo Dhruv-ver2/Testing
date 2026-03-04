@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <title>SCRIPTS_ARCHIVE // DHRUV</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
         :root {
             --blade-bg: rgba(13, 17, 23, 0.9);
             --accent-glow: #3b82f6;
             --text-dim: #8b949e;
+            --code-bg: #000;
         }
 
         body {
@@ -21,7 +23,6 @@
 
         .archive-title { font-size: 3rem; margin-bottom: 4rem; letter-spacing: -1px; }
 
-        /* The "Server Blade" Card */
         .script-blade {
             background: var(--blade-bg);
             border: 1px solid rgba(255,255,255,0.1);
@@ -41,7 +42,6 @@
 
         .blade-title { font-family: 'JetBrains Mono'; color: var(--accent-glow); }
 
-        /* The Expanding Content (Hidden by default) */
         .blade-content {
             max-height: 0;
             padding: 0 2rem;
@@ -50,7 +50,6 @@
             border-top: 0px solid transparent;
         }
 
-        /* The "Active" State */
         .script-blade.active {
             border-color: var(--accent-glow);
             box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
@@ -58,24 +57,69 @@
         }
 
         .script-blade.active .blade-content {
-            max-height: 2000px; /* Large enough to fit any script */
+            max-height: 2500px;
             padding: 2rem;
             opacity: 1;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Internal Sections */
         .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
-        .meta-item h4 { color: var(--accent-glow); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .meta-item h4 { color: var(--accent-glow); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
         .meta-item p { font-size: 0.9rem; color: var(--text-dim); }
 
         .code-box {
-            background: #000;
+            background: var(--code-bg);
             padding: 1.5rem;
             border-radius: 4px;
             font-family: 'JetBrains Mono';
             font-size: 0.85rem;
             position: relative;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .copy-action {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-glow);
+            border: 1px solid var(--accent-glow);
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+
+        .deployment-zone {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .deploy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border: 1px solid var(--accent-glow);
+            color: var(--accent-glow);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .deploy-btn:hover {
+            background: var(--accent-glow);
+            color: white;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .security-notice {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 2px solid var(--accent-glow);
         }
 
         .minimize-btn {
@@ -84,7 +128,7 @@
             color: var(--text-dim);
             padding: 5px 15px;
             cursor: pointer;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.7rem;
         }
     </style>
@@ -95,8 +139,8 @@
     <div class="script-blade" onclick="this.classList.add('active')">
         <div class="blade-header">
             <div>
-                <span class="blade-title">0x001_SYSTEM_PURGE</span>
-                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">Automated temporary file and cache optimization utility.</p>
+                <span class="blade-title">0x001_VOICE_GREET</span>
+                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">Vocal AI greeting synchronized with system-time clock cycles.</p>
             </div>
             <i class="ri-arrow-right-s-line"></i>
         </div>
@@ -105,18 +149,37 @@
             <div class="meta-grid">
                 <div class="meta-item">
                     <h4>Requirements</h4>
-                    <p>Python 3.10+, Administrative Privileges</p>
+                    <p>Python 3.x, pyttsx3 library</p>
                 </div>
                 <div class="meta-item">
-                    <h4>Functionality</h4>
-                    <p>Recursively scans designated /temp/ paths and clears redundant metadata files.</p>
+                    <h4>Operation</h4>
+                    <p>Calculates local time and triggers a voice synthesis engine to greet the user.</p>
                 </div>
             </div>
 
-            <div class="code-box">
-                <span style="color: #ff7b72;">import</span> os<br>
-                <span style="color: #ff7b72;">def</span> <span style="color: #d2a8ff;">run_purge</span>():<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;print(<span style="color: #a5d6ff;">"SCANNING SYSTEM..."</span>)
+            <div class="code-box" id="code-001">
+                <button class="copy-action" onclick="copyCode('code-001', this)">Copy_Code</button>
+                <pre><code><span style="color: #ff7b72;">import</span> pyttsx3
+<span style="color: #ff7b72;">from</span> datetime <span style="color: #ff7b72;">import</span> datetime <span style="color: #ff7b72;">as</span> dt
+
+<span style="color: #ff7b72;">def</span> <span style="color: #d2a8ff;">greet</span>(hour, minute):
+    <span style="color: #ff7b72;">if</span> 0 <= hour <= 4: <span style="color: #ff7b72;">return</span> <span style="color: #a5d6ff;">"Very Good Morning"</span>
+    <span style="color: #8b949e;"># ... logic continues</span></code></pre>
+            </div>
+
+            <div class="deployment-zone">
+                <h4 style="color:var(--accent-glow); font-size: 0.7rem; margin-bottom: 1rem; text-transform: uppercase;">One-Click Deployment</h4>
+                <a href="{% static 'scripts/greet_bot_installer.zip' %}" download class="deploy-btn">
+                    <i class="ri-folder-zip-line"></i> Download Bundle (.zip)
+                </a>
+                
+                <div class="security-notice">
+                    <p style="font-size: 0.7rem; color: var(--text-dim); margin: 0; line-height: 1.4;">
+                        <span style="color: var(--accent-glow);">[ SECURITY_PROTOCOL ]</span>: 
+                        If Windows flags the installer, click <strong>More Info</strong> & <strong>Run Anyway</strong>. 
+                        This is standard for self-signed automation tools. Unzip the bundle before running <u>setup_greet.bat</u>.
+                    </p>
+                </div>
             </div>
 
             <button class="minimize-btn" onclick="event.stopPropagation(); this.parentElement.parentElement.classList.remove('active')">
@@ -125,6 +188,13 @@
         </div>
     </div>
 
-    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        function copyCode(id, btn) {
+            const code = document.getElementById(id).querySelector('pre').innerText;
+            navigator.clipboard.writeText(code);
+            btn.innerText = "COPIED";
+            setTimeout(() => { btn.innerText = "Copy_Code"; }, 2000);
+        }
+    </script>
 </body>
 </html>
