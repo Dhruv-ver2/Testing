@@ -3,219 +3,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHASE_02 // SCRIPTS_VAULT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&family=IBM+Plex+Mono:wght@300;500&display=swap" rel="stylesheet">
+    <title>SCRIPTS_ARCHIVE // DHRUV</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&family=Outfit:wght@300;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --void: #02040a;
-            --ghost: #f8fafc;
-            --blueprint-blue: #3b82f6;
-            --dim-line: rgba(248, 250, 252, 0.05);
+            --blade-bg: rgba(13, 17, 23, 0.9);
+            --accent-glow: #3b82f6;
+            --text-dim: #8b949e;
         }
 
         body {
-            background-color: var(--void);
-            color: var(--ghost);
-            font-family: 'Outfit', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* The "Scanning" Line Animation */
-        .scanner-line {
-            position: fixed;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.05), transparent);
-            z-index: 10;
-            pointer-events: none;
-            animation: scan 8s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: -10%; }
-            100% { top: 110%; }
-        }
-
-        /* Deconstructed Layout Container */
-        .blueprint-wrapper {
-            display: grid;
-            grid-template-columns: 80px 1fr 300px;
-            min-height: 100vh;
-            border-left: 1px solid var(--dim-line);
-        }
-
-        /* Column 1: Vertical Status Labels */
-        .sidebar-status {
-            border-right: 1px solid var(--dim-line);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 2rem;
-            gap: 4rem;
-        }
-
-        .vertical-label {
-            writing-mode: vertical-rl;
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            color: var(--blueprint-blue);
-            opacity: 0.5;
-        }
-
-        /* Column 2: The Logic modules */
-        .main-engine {
-            padding: 4rem;
-        }
-
-        .engine-header {
-            margin-bottom: 5rem;
-        }
-
-        .engine-header h1 {
-            font-size: 5rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 0.9;
-        }
-
-        .script-module {
-            margin-bottom: 8rem;
-            position: relative;
-        }
-
-        .module-id {
-            font-family: 'IBM Plex Mono', monospace;
-            color: var(--blueprint-blue);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .code-container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--dim-line);
-            padding: 2rem;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.7;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .code-container:hover {
-            border-color: var(--blueprint-blue);
-            background: rgba(59, 130, 246, 0.03);
-        }
-
-        /* Column 3: Flow Annotations */
-        .flow-aside {
-            padding: 4rem 2rem;
-            background: rgba(255,255,255, 0.01);
-            border-left: 1px solid var(--dim-line);
-        }
-
-        .annotation-box {
-            border-top: 1px solid var(--blueprint-blue);
-            padding-top: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .annotation-box h4 {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            color: var(--blueprint-blue);
-        }
-
-        .annotation-box p {
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-
-        .copy-action {
-            position: absolute;
-            top: -15px;
-            right: 20px;
-            background: var(--blueprint-blue);
+            background: #010409;
             color: white;
-            border: none;
-            padding: 5px 15px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
+            font-family: 'Outfit', sans-serif;
+            padding: 5rem 10%;
         }
 
-        @media (max-width: 1100px) {
-            .blueprint-wrapper { grid-template-columns: 1fr; }
-            .sidebar-status, .flow-aside { display: none; }
+        .archive-title { font-size: 3rem; margin-bottom: 4rem; letter-spacing: -1px; }
+
+        /* The "Server Blade" Card */
+        .script-blade {
+            background: var(--blade-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .blade-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blade-title { font-family: 'JetBrains Mono'; color: var(--accent-glow); }
+
+        /* The Expanding Content (Hidden by default) */
+        .blade-content {
+            max-height: 0;
+            padding: 0 2rem;
+            opacity: 0;
+            transition: all 0.5s ease;
+            border-top: 0px solid transparent;
+        }
+
+        /* The "Active" State */
+        .script-blade.active {
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+            cursor: default;
+        }
+
+        .script-blade.active .blade-content {
+            max-height: 2000px; /* Large enough to fit any script */
+            padding: 2rem;
+            opacity: 1;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Internal Sections */
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .meta-item h4 { color: var(--accent-glow); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .meta-item p { font-size: 0.9rem; color: var(--text-dim); }
+
+        .code-box {
+            background: #000;
+            padding: 1.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono';
+            font-size: 0.85rem;
+            position: relative;
+        }
+
+        .minimize-btn {
+            background: transparent;
+            border: 1px solid var(--text-dim);
+            color: var(--text-dim);
+            padding: 5px 15px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.7rem;
         }
     </style>
 </head>
 <body>
-    <div class="scanner-line"></div>
-    <canvas id="background-canvas" style="position:fixed; z-index:-1; opacity: 0.3;"></canvas>
+    <h1 class="archive-title">SCRIPTS<span style="color:var(--accent-glow)">_</span>HUB</h1>
 
-    <div class="blueprint-wrapper">
-        <div class="sidebar-status">
-            <div class="vertical-label">System.Ready</div>
-            <div class="vertical-label">Phase.02_Active</div>
-            <div class="vertical-label">Uptime.100%</div>
+    <div class="script-blade" onclick="this.classList.add('active')">
+        <div class="blade-header">
+            <div>
+                <span class="blade-title">0x001_SYSTEM_PURGE</span>
+                <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 5px;">Automated temporary file and cache optimization utility.</p>
+            </div>
+            <i class="ri-arrow-right-s-line"></i>
         </div>
 
-        <main class="main-engine">
-            <div class="engine-header">
-                <span style="font-family: 'IBM Plex Mono'; opacity: 0.5;">[ DEV_ACCESS_GRANTED ]</span>
-                <h1>SCRIPTS<br><span style="color: var(--blueprint-blue);">VAULT</span></h1>
-            </div>
-
-            <div class="script-module">
-                <span class="module-id">// ID: 0x881_SYSTEM_OPT</span>
-                <div class="code-container" id="script-01">
-                    <button class="copy-action" onclick="copyCode('script-01', this)">Inject_To_Clipboard</button>
-                    <span style="color: #6ed3ff;">import</span> os, time<br>
-                    <span style="color: #6ed3ff;">def</span> <span style="color: #fca5a5;">initialize_purge</span>():<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;print(<span style="color: #d1d5db;">"STAGING_CLEANUP..."</span>)<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #9ca3af;"># Logic for path automation goes here</span>
+        <div class="blade-content">
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <h4>Requirements</h4>
+                    <p>Python 3.10+, Administrative Privileges</p>
+                </div>
+                <div class="meta-item">
+                    <h4>Functionality</h4>
+                    <p>Recursively scans designated /temp/ paths and clears redundant metadata files.</p>
                 </div>
             </div>
 
-             <div class="script-module">
-                <span class="module-id">// ID: 0x992_NET_COMM</span>
-                <div class="code-container" id="script-02">
-                    <button class="copy-action" onclick="copyCode('script-02', this)">Inject_To_Clipboard</button>
-                    <span style="color: #6ed3ff;">import</span> socket<br>
-                    <span style="color: #6ed3ff;">def</span> <span style="color: #fca5a5;">check_latency</span>():<br>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #9ca3af;"># Diagnostic ping logic...</span>
-                </div>
+            <div class="code-box">
+                <span style="color: #ff7b72;">import</span> os<br>
+                <span style="color: #ff7b72;">def</span> <span style="color: #d2a8ff;">run_purge</span>():<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;print(<span style="color: #a5d6ff;">"SCANNING SYSTEM..."</span>)
             </div>
-        </main>
 
-        <aside class="flow-aside">
-            <div class="annotation-box">
-                <h4>Architecture</h4>
-                <p>These modules utilize asynchronous execution patterns to minimize system overhead during diagnostic cycles.</p>
-            </div>
-            <div class="annotation-box">
-                <h4>Security</h4>
-                <p>Encrypted handshakes are required for all 0x900 series scripts before deployment.</p>
-            </div>
-        </aside>
+            <button class="minimize-btn" onclick="event.stopPropagation(); this.parentElement.parentElement.classList.remove('active')">
+                CLOSE_MODULE
+            </button>
+        </div>
     </div>
 
     <script src="{% static 'js/script.js' %}"></script>
-    <script>
-        function copyCode(id, btn) {
-            const code = document.getElementById(id).innerText.replace('Inject_To_Clipboard', '');
-            navigator.clipboard.writeText(code);
-            btn.innerText = "INJECTED";
-            setTimeout(() => { btn.innerText = "Inject_To_Clipboard"; }, 2000);
-        }
-    </script>
 </body>
 </html>
