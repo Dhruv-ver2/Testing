@@ -73,28 +73,26 @@
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 32px;
-            border-radius: 8px;
+            /* Corner logic: bottom-right is square to blend with the tab */
+            border-radius: 8px 8px 0 8px; 
             transition: border-color 0.2s ease, transform 0.2s ease;
             cursor: pointer;
             position: relative;
-            /* Removed overflow: hidden so the tab can sit outside */
             backface-visibility: hidden;
             transform: translateZ(0);
         }
 
-        /* --- Refined Arrow Tab --- */
+        /* --- Unified Seamless Tab --- */
         .script-card::after {
             content: "▼";
             position: absolute;
-            /* Aligned to the bottom-right corner */
             bottom: -21px; 
             right: -1px; 
             width: 40px;
-            /* Height reduced for a sleeker look */
-            height: 20px; 
+            height: 21px; 
             background: var(--surface);
             border: 1px solid var(--border);
-            border-top: none;
+            border-top: none; 
             border-radius: 0 0 6px 6px;
             display: flex;
             align-items: center;
@@ -102,7 +100,21 @@
             font-size: 0.9rem;
             color: var(--text-muted);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
-            z-index: 2;
+            /* Higher z-index ensures the tab border stays visible over the drawer */
+            z-index: 5; 
+        }
+
+        /* Mask to erase the card's bottom-right border line */
+        .script-card::before {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            width: 38px;
+            height: 2px;
+            background: var(--surface);
+            /* Sits between card and tab to hide the connecting line */
+            z-index: 4; 
         }
 
         .script-card.active::after {
@@ -110,12 +122,13 @@
             color: var(--text-main);
         }
 
-        .script-card:hover::after {
-            color: var(--text-main);
+        .script-card:hover::after,
+        .script-card.active::after {
             border-color: var(--text-muted);
         }
 
-        .script-card:hover {
+        .script-card:hover,
+        .script-card.active {
             border-color: var(--text-muted);
         }
 
