@@ -28,6 +28,10 @@
             --text-muted: #666666;
         }
 
+        html {
+            scrollbar-gutter: stable; 
+        }
+
         body {
             background-color: var(--bg);
             color: var(--text-main);
@@ -37,7 +41,6 @@
             transition: background 0.2s ease;
         }
 
-        /* --- Header: Industrial Minimalist --- */
         header {
             border-bottom: 1px solid var(--border);
             padding-bottom: 40px;
@@ -60,7 +63,6 @@
             text-transform: uppercase;
         }
 
-        /* --- Grid & Cards --- */
         .scripts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -75,44 +77,37 @@
             transition: border-color 0.2s ease, transform 0.2s ease;
             cursor: pointer;
             position: relative;
-            /* Allow the arrow tab to overflow outside the card boundary */
-            overflow: visible; 
+            /* Removed overflow: hidden so the tab can sit outside */
             backface-visibility: hidden;
             transform: translateZ(0);
         }
 
-        /* --- Updated Hanging Arrow Tab --- */
+        /* --- Refined Arrow Tab --- */
         .script-card::after {
             content: "▼";
             position: absolute;
-            /* Positioned outside the bottom border */
-            bottom: -20px; 
-            right: 32px;
-            width: 44px;
-            height: 24px;
+            /* Aligned to the bottom-right corner */
+            bottom: -21px; 
+            right: -1px; 
+            width: 40px;
+            /* Height reduced for a sleeker look */
+            height: 20px; 
             background: var(--surface);
             border: 1px solid var(--border);
-            /* Remove top border to blend with card bottom */
-            border-top: none; 
+            border-top: none;
             border-radius: 0 0 6px 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        color 0.2s ease, 
-                        border-color 0.2s ease,
-                        bottom 0.2s ease;
-            z-index: 10;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
+            z-index: 2;
         }
 
         .script-card.active::after {
             transform: rotate(180deg);
             color: var(--text-main);
-            /* Adjust position slightly when rotated to maintain "attached" look */
-            bottom: -21px; 
         }
 
         .script-card:hover::after {
@@ -139,25 +134,23 @@
             border-radius: 4px;
         }
 
-        /* --- Expanded Content (Stabilized Animation) --- */
         .content-drawer {
             max-height: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), 
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), 
                         opacity 0.2s ease;
             margin-top: 0;
         }
 
         .script-card.active .content-drawer {
-            max-height: 1000px; 
+            max-height: 1200px; 
             opacity: 1;
             margin-top: 32px;
             padding-top: 32px;
             border-top: 1px solid var(--border);
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                        opacity 0.4s ease-in,
-                        margin-top 0.4s ease;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.4s ease-in;
         }
 
         .meta-group {
@@ -176,7 +169,6 @@
 
         p { font-size: 0.95rem; margin: 0; }
 
-        /* --- Actions --- */
         .btn {
             background: var(--accent);
             color: var(--bg);
@@ -235,7 +227,7 @@
         <div class="script-card" onclick="if(!this.dataset.animating) { 
             this.classList.toggle('active'); 
             this.dataset.animating = 'true'; 
-            setTimeout(() => delete this.dataset.animating, 350); 
+            setTimeout(() => delete this.dataset.animating, 400); 
         }">
             <div class="card-header">
                 <div>
@@ -279,22 +271,17 @@
     <script>
         async function copySource(url, btn) {
             const original = "Copy Source Code";
-            
             try {
                 btn.innerText = "Copying...";
                 btn.disabled = true;
-                
                 const response = await fetch(url);
                 const code = await response.text();
                 await navigator.clipboard.writeText(code);
-                
                 btn.innerText = "Code Copied!";
-                
                 setTimeout(() => {
                     btn.innerText = original;
                     btn.disabled = false;
                 }, 4000);
-                
             } catch (err) {
                 btn.innerText = "Error Fetching Source";
                 setTimeout(() => {
