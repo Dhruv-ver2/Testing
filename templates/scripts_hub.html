@@ -43,7 +43,7 @@
             padding-bottom: 40px;
             margin-bottom: 60px;
             text-align: center;
-            }
+        }
 
         h1 {
             font-family: 'Book Antiqua', serif;
@@ -51,7 +51,6 @@
             margin: 0;
             font-weight: 400;
         }
-
 
         .subtitle {
             font-family: 'JetBrains Mono', monospace;
@@ -73,40 +72,44 @@
             border: 1px solid var(--border);
             padding: 32px;
             border-radius: 8px;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease;
             cursor: pointer;
-              position: relative;
+            position: relative;
+            /* Hardware Acceleration & Stability */
+            overflow: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         .script-card::after {
-  content: "▼";
-  position: absolute;
-  bottom: -12px;
-  right: 20px;
-  width: 40px;
-  height: 28px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 0 0 6px 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
+            content: "▼";
+            position: absolute;
+            bottom: -12px;
+            right: 20px;
+            width: 40px;
+            height: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
+        }
 
-    .script-card.active::after {
-    transform: rotate(180deg);
-    color: var(--text-main);
-}
+        .script-card.active::after {
+            transform: rotate(180deg);
+            color: var(--text-main);
+        }
 
-.script-card:hover::after {
-  color: var(--text-main);
-  border-color: var(--text-muted);
-}
+        .script-card:hover::after {
+            color: var(--text-main);
+            border-color: var(--text-muted);
+        }
 
         .script-card:hover {
             border-color: var(--text-muted);
@@ -127,24 +130,28 @@
             border-radius: 4px;
         }
 
-        /* --- Expanded Content --- */
+        /* --- Expanded Content (Stabilized Animation) --- */
         .content-drawer {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.4s ease, 
-                margin-top 0.4s ease;
-    margin-top: 0;
-}
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            /* Instant response for closing to prevent lag feel */
+            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), 
+                        opacity 0.2s ease;
+            margin-top: 0;
+        }
 
         .script-card.active .content-drawer {
-    max-height: 1000px; /* High enough to accommodate content */
-    opacity: 1;
-    margin-top: 32px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-}
+            max-height: 1000px; 
+            opacity: 1;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            /* Smooth organic curve for opening */
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        opacity 0.4s ease-in,
+                        margin-top 0.4s ease;
+        }
 
         .meta-group {
             display: grid;
@@ -178,10 +185,10 @@
         }
 
         .btn:hover { opacity: 0.9; }
-         .btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
- }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 
         .protocol-box {
             background: rgba(255,255,255,0.03);
@@ -203,6 +210,7 @@
             background: none; border: 1px solid var(--border);
             color: var(--text-main); padding: 8px; cursor: pointer;
             border-radius: 6px;
+            z-index: 100;
         }
     </style>
 </head>
@@ -217,7 +225,11 @@
     </header>
 
     <div class="scripts-grid">
-        <div class="script-card" onclick="this.classList.toggle('active')">
+        <div class="script-card" onclick="if(!this.dataset.animating) { 
+            this.classList.toggle('active'); 
+            this.dataset.animating = 'true'; 
+            setTimeout(() => delete this.dataset.animating, 350); 
+        }">
             <div class="card-header">
                 <div>
                     <h2 style="margin:0; font-size: 1.25rem;">Vocal Greeting System</h2>
@@ -262,7 +274,6 @@
             const original = "Copy Source Code";
             
             try {
-                // Show "Copying..." state
                 btn.innerText = "Copying...";
                 btn.disabled = true;
                 
@@ -270,10 +281,8 @@
                 const code = await response.text();
                 await navigator.clipboard.writeText(code);
                 
-                // Show "Code Copied!" state
                 btn.innerText = "Code Copied!";
                 
-                // After 3-5 seconds, revert to original
                 setTimeout(() => {
                     btn.innerText = original;
                     btn.disabled = false;
