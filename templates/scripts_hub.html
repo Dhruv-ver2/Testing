@@ -250,6 +250,45 @@
                     </ol>
                 </div>
             </div>
+
+                <div class="script-card" onclick="this.classList.toggle('active')">
+      <div class="card-header">
+        <div>
+          <h2 style="margin:0; font-size: 1.25rem;">Close All Windows Except Me</h2>
+          <span class="tag">0x002</span>
+        </div>
+      </div>
+      
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        A utility script that closes all open windows except the current application.
+      </p>
+
+      <div class="content-drawer" onclick="event.stopPropagation()">
+        <div class="meta-group">
+          <div class="meta-item">
+            <h4>Requirements</h4>
+            <p>Python 3.8+<br><code>pip install pygetwindow</code></p>
+          </div>
+          <div class="meta-item">
+            <h4>Operation</h4>
+            <p>Identifies the active window and systematically closes all other visible windows while protecting system applications.</p>
+          </div>
+        </div>
+
+        <button class="btn" onclick="copySource('{% static 'scripts/script_close_all.txt' %}', this)">
+          Copy Source Code
+        </button>
+
+        <div class="protocol-box">
+          <h4>Execution Protocol</h4>
+          <ol>
+            <li>Save source to a <code>.py</code> file.</li>
+            <li>Install necessary dependencies.</li>
+            <li>Initialize via terminal.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
         </div>
     </div>
 
