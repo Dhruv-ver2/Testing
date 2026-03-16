@@ -290,6 +290,12 @@
         function toggleSingleCard(cardElement) {
             // Check for animation lock
             if (cardElement.dataset.animating === 'true') return;
+                    // Close all other cards first
+        document.querySelectorAll('.script-card').forEach(card => {
+            if (card !== cardElement && card.classList.contains('active')) {
+                card.classList.remove('active');
+            }
+        });
 
             // Toggle active state ONLY on this element
             cardElement.classList.toggle('active');
