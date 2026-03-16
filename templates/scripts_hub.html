@@ -206,7 +206,7 @@
     </header>
 
     <div class="scripts-grid">
-        <div class="script-card" onclick="toggleSingleCard(this)">
+        <div id="script-vocal" class="script-card" onclick="toggleIsolatedCard('script-vocal', event)">
             <canvas class="card-particles"></canvas>
             <div class="card-header">
                 <div>
@@ -217,7 +217,7 @@
             <p style="color: var(--text-muted); font-size: 0.9rem;">
                 A temporal logic bridge for automated speech synthesis.
             </p>
-            <div class="content-drawer" onclick="event.stopPropagation()">
+            <div class="content-drawer">
                 <div class="meta-group">
                     <div class="meta-item">
                         <h4>Requirements</h4>
@@ -228,7 +228,7 @@
                         <p>Synchronous OS level audio output based on 24h clock cycles.</p>
                     </div>
                 </div>
-                <button class="btn" data-source="{% static 'scripts/script_vocal_greeting.txt' %}" onclick="copySource(this.getAttribute('data-source'), this)">
+                <button class="btn" data-source="{% static 'scripts/script_vocal_greeting.txt' %}" onclick="copySource(this.getAttribute('data-source'), this, event)">
                     Copy Source Code
                 </button>
                 <div class="protocol-box">
@@ -242,7 +242,7 @@
             </div>
         </div>
 
-        <div class="script-card" onclick="toggleSingleCard(this)">
+        <div id="script-close" class="script-card" onclick="toggleIsolatedCard('script-close', event)">
             <canvas class="card-particles"></canvas>
             <div class="card-header">
                 <div>
@@ -253,7 +253,7 @@
             <p style="color: var(--text-muted); font-size: 0.9rem;">
                 A window management utility to force-close all active GUI instances.
             </p>
-            <div class="content-drawer" onclick="event.stopPropagation()">
+            <div class="content-drawer">
                 <div class="meta-group">
                     <div class="meta-item">
                         <h4>Requirements</h4>
@@ -264,7 +264,7 @@
                         <p>Iterates through visible OS windows and executes a close command.</p>
                     </div>
                 </div>
-                <button class="btn" data-source="{% static 'scripts/script_close_all.txt' %}" onclick="copySource(this.getAttribute('data-source'), this)">
+                <button class="btn" data-source="{% static 'scripts/script_close_all.txt' %}" onclick="copySource(this.getAttribute('data-source'), this, event)">
                     Copy Source Code
                 </button>
                 <div class="protocol-box">
@@ -286,18 +286,24 @@
             MOUSE_REPULSION_RADIUS: 80
         };
 
-        // NEW: Function to toggle only the clicked card
-        function toggleSingleCard(cardElement) {
-            // Check for animation lock
-            if (cardElement.dataset.animating === 'true') return;
+        // NEW: Isolated logic using explicit ID targeting
+        function toggleIsolatedCard(cardId, event) {
+            // Do nothing if we're clicking a button or within the expanded drawer
+            if (event.target.closest('.btn') || event.target.closest('.content-drawer')) {
+                return;
+            }
 
-            // Toggle active state ONLY on this element
-            cardElement.classList.toggle('active');
+            const targetCard = document.getElementById(cardId);
+            
+            // Animation guard
+            if (targetCard.dataset.isAnimating === 'true') return;
 
-            // Set animation lock to prevent glitchy rapid clicks
-            cardElement.dataset.animating = 'true';
+            // Toggle active state ONLY on this specific element
+            targetCard.classList.toggle('active');
+
+            targetCard.dataset.isAnimating = 'true';
             setTimeout(() => {
-                delete cardElement.dataset.animating;
+                delete targetCard.dataset.isAnimating;
             }, 400);
         }
 
@@ -308,10 +314,8 @@
                 this.particles = [];
                 this.mouse = { x: null, y: null };
                 this.parent = canvas.parentElement;
-
                 this.init();
                 this.animate();
-
                 this.parent.addEventListener('mousemove', (e) => {
                     const rect = this.parent.getBoundingClientRect();
                     this.mouse.x = e.clientX - rect.left;
@@ -321,21 +325,15 @@
                     this.mouse.x = null;
                     this.mouse.y = null;
                 });
-                
                 const observer = new ResizeObserver(() => this.resize());
                 observer.observe(this.parent);
             }
-
             resize() {
                 this.canvas.width = this.parent.offsetWidth;
                 this.canvas.height = this.parent.offsetHeight;
                 this.initParticles();
             }
-
-            init() {
-                this.resize();
-            }
-
+            init() { this.resize(); }
             initParticles() {
                 this.particles = [];
                 for (let i = 0; i < JS_CONFIG.PARTICLE_COUNT; i++) {
@@ -347,17 +345,13 @@
                     this.particles.push({ x, y, dirX, dirY, size });
                 }
             }
-
             draw() {
                 const particleColor = getComputedStyle(document.documentElement).getPropertyValue('--color-particle').trim();
                 const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--color-particle-line').trim();
                 const colorParts = lineColor.match(/[\d\.]+/g);
-
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
                 for (let i = 0; i < this.particles.length; i++) {
                     let p = this.particles[i];
-
                     if (this.mouse.x && this.mouse.y) {
                         let dx = this.mouse.x - p.x;
                         let dy = this.mouse.y - p.y;
@@ -367,18 +361,14 @@
                             p.y -= dy / 50;
                         }
                     }
-                    
                     p.x += p.dirX;
                     p.y += p.dirY;
-
                     if (p.x > this.canvas.width || p.x < 0) p.dirX *= -1;
                     if (p.y > this.canvas.height || p.y < 0) p.dirY *= -1;
-
                     this.ctx.beginPath();
                     this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     this.ctx.fillStyle = particleColor;
                     this.ctx.fill();
-
                     for (let j = i; j < this.particles.length; j++) {
                         let p2 = this.particles[j];
                         let dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
@@ -394,7 +384,6 @@
                     }
                 }
             }
-
             animate() {
                 this.draw();
                 requestAnimationFrame(() => this.animate());
@@ -406,7 +395,8 @@
             canvases.forEach(canvas => new CardParticleSystem(canvas));
         });
 
-        async function copySource(url, btn) {
+        async function copySource(url, btn, event) {
+            event.stopPropagation();
             const original = "Copy Source Code";
             try {
                 btn.innerText = "Copying...";
