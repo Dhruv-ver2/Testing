@@ -206,7 +206,7 @@
     </header>
 
     <div class="scripts-grid">
-        <div class="script-card" onclick="handleCardClick(this, event)">
+        <div class="script-card" onclick="toggleSingleCard(this)">
             <canvas class="card-particles"></canvas>
             <div class="card-header">
                 <div>
@@ -242,7 +242,7 @@
             </div>
         </div>
 
-        <div class="script-card" onclick="handleCardClick(this, event)">
+        <div class="script-card" onclick="toggleSingleCard(this)">
             <canvas class="card-particles"></canvas>
             <div class="card-header">
                 <div>
@@ -286,21 +286,18 @@
             MOUSE_REPULSION_RADIUS: 80
         };
 
-        // NEW: Independent Card Toggle Function
-        function handleCardClick(card, event) {
-            // Prevent expansion if clicking inside the drawer or on the button
-            if (event.target.closest('.content-drawer') || event.target.closest('.btn')) {
-                return;
-            }
+        // NEW: Function to toggle only the clicked card
+        function toggleSingleCard(cardElement) {
+            // Check for animation lock
+            if (cardElement.dataset.animating === 'true') return;
 
-            // Animation lock to prevent glitching
-            if (card.dataset.animating === 'true') return;
+            // Toggle active state ONLY on this element
+            cardElement.classList.toggle('active');
 
-            card.classList.toggle('active');
-
-            card.dataset.animating = 'true';
+            // Set animation lock to prevent glitchy rapid clicks
+            cardElement.dataset.animating = 'true';
             setTimeout(() => {
-                delete card.dataset.animating;
+                delete cardElement.dataset.animating;
             }, 400);
         }
 
