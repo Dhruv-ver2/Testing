@@ -44,11 +44,12 @@ function initIntroAnimation() {
     let animationFrameId;
 
     INTRO_CONFIG.TEXT.split('').forEach((char, index) => {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.animationDelay = `${index * 100 + 200}ms`;
-        textContainer.appendChild(span);
-    });
+    const span = document.createElement('span');
+    span.textContent = char === ' ' ? '\u00A0' : char;
+    // Increase the base delay (e.g., to 4.5s) so it starts after the "Presents" animation
+    span.style.animationDelay = `${index * 100 + 4500}ms`; 
+    textContainer.appendChild(span);
+});
 
     function createFormulaParticle() {
         const particleEl = document.createElement('div');
