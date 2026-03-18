@@ -43,13 +43,16 @@ function initIntroAnimation() {
     let particles = [];
     let animationFrameId;
 
-    INTRO_CONFIG.TEXT.split('').forEach((char, index) => {
+    // Inside initIntroAnimation function in static/js/script.js
+    INTRO_CONFIG.TEXT.split('').forEach((char, index) => {
     const span = document.createElement('span');
     span.textContent = char === ' ' ? '\u00A0' : char;
-    // Increase the base delay (e.g., to 4.5s) so it starts after the "Presents" animation
-    span.style.animationDelay = `${index * 100 + 4500}ms`; 
+    
+    // index * 150 slows down the typing speed (was 100)
+    // + 6500ms delay ensures it starts after "Presents" is fully visible
+    span.style.animationDelay = `${index * 150 + 6500}ms`; 
     textContainer.appendChild(span);
-});
+    });
 
     function createFormulaParticle() {
         const particleEl = document.createElement('div');

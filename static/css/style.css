@@ -220,20 +220,20 @@ body.intro-active {
 
 /* Animation timings remain the same for the sequence */
 #intro-era {
-    animation: fadeInOut 2.5s ease-in-out forwards;
-    animation-delay: 0.5s;
+    animation: fadeInOut 3.5s ease-in-out forwards;
+    animation-delay: 0.8s;
 }
 
 #intro-presents {
-    animation: fadeInStay 1.5s ease-in-out forwards;
-    animation-delay: 2.8s;
+    animation: fadeInStay 2s ease-in-out forwards;
+    animation-delay: 4.5s;
 }
 
 @keyframes fadeInOut {
     0% { opacity: 0; transform: translateX(5px); }
-    30% { opacity: 1; transform: translateX(0); }
-    70% { opacity: 1; transform: translateX(0); }
-    100% { opacity: 0; transform: translateX(-5px); }
+    15% { opacity: 1; transform: translateX(0); } /* Quick fade in */
+    85% { opacity: 1; transform: translateX(0); } /* Long hold */
+    100% { opacity: 0; transform: translateX(-5px); } /* Smooth fade out */
 }
 
 @keyframes fadeInStay {
@@ -255,7 +255,7 @@ body.intro-active {
     align-items: center;
     opacity: 1;
     transition: opacity 2s ease-out, backdrop-filter 2s ease-out;
-    --intro-duration: 6000ms;
+    --intro-duration: 9500ms;
 }
 
 #intro-overlay.hidden {
