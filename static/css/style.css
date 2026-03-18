@@ -183,48 +183,62 @@ body.intro-active {
 ==========================================================================
 */
 
-/* --- INTRO SEQUENCE STYLES --- */
+/* --- REFINED INTRO SEQUENCE STYLES --- */
 .intro-sequence {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* Aligns all children (Era, Presents, Name) to the left of the container */
+    align-items: flex-start; 
     justify-content: center;
-    gap: 0.5rem;
+    /* Keeps the entire block in the center of the screen */
+    margin: 0 auto;
+    gap: 0.2rem;
     z-index: 10;
 }
 
 .intro-small-text {
     font-family: var(--font-family-intro); /* Lora, serif */
-    font-weight: 400;
-    font-size: clamp(1rem, 3vw, 1.8rem); /* Smaller than main name */
+    /* Remove bold: using 300 or 400 to match the main text's weight */
+    font-weight: 400; 
+    /* Significantly smaller size as requested */
+    font-size: clamp(0.8rem, 2vw, 1.2rem); 
     color: #e8eaf6;
     text-shadow: 0 0 8px rgba(232, 234, 246, 0.5), 0 0 20px rgba(92, 107, 192, 0.5);
     opacity: 0;
     margin: 0;
+    /* Ensures they stay left-aligned even if the container grows */
+    text-align: left;
 }
 
-/* ERA 2026: Fades in then fades out */
+/* Adjust the main name container to ensure it doesn't force centering */
+#intro-text {
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Animation timings remain the same for the sequence */
 #intro-era {
     animation: fadeInOut 2.5s ease-in-out forwards;
     animation-delay: 0.5s;
 }
 
-/* PRESENTS: Fades in after ERA fades out, and stays visible */
 #intro-presents {
     animation: fadeInStay 1.5s ease-in-out forwards;
-    animation-delay: 2.8s; /* Starts after #intro-era finishes its 2.5s + 0.5s delay */
+    animation-delay: 2.8s;
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(10px); }
-    30% { opacity: 1; transform: translateY(0); }
-    70% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
+    0% { opacity: 0; transform: translateX(5px); }
+    30% { opacity: 1; transform: translateX(0); }
+    70% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-5px); }
 }
 
 @keyframes fadeInStay {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% { opacity: 0; transform: translateX(5px); }
+    100% { opacity: 1; transform: translateX(0); }
 }
 
 #intro-overlay {
