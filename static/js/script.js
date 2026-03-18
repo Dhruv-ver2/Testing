@@ -4,11 +4,13 @@
 ==========================================================================
 */
 const INTRO_CONFIG = {
-    TEXT: "Dhruv Vaishnav",
-    FORMULAS: ['∑(x-μ)²/N', 'class User {}', 'e=mc²', 'const animate = () => {}', 'a²+b²=c²', 'Promise.resolve()', '∇·E=ρ/ε₀', 'for(let i=0; i<n; i++)'],
-    PARTICLE_INTERVAL: 250,
-    TEXT_SAFE_ZONE: 200,
-    TEXT_FADE_DISTANCE: 100,
+    TEXT: "Dhruv Vaishnav",
+    ERA_TEXT: "Era 2026",
+    PRESENTS_TEXT: "Presents",
+    FORMULAS: ['∑(x-μ)²/N', 'class User {}', 'e=mc²', 'const animate = () => {}', 'a²+b²=c²', 'Promise.resolve()', '∇·E=ρ/ε₀', 'for(let i=0; i<n; i++)'],
+    PARTICLE_INTERVAL: 250,
+    TEXT_SAFE_ZONE: 200,
+    TEXT_FADE_DISTANCE: 100,
 };
 
 const JS_CONFIG = {
@@ -33,26 +35,37 @@ document.addEventListener('DOMContentLoaded', () => {
 ==========================================================================
 */
 function initIntroAnimation() {
-    const overlay = document.getElementById('intro-overlay');
-    const textContainer = document.getElementById('intro-text');
-    const formulaContainer = document.getElementById('formula-container');
-    const introDuration = parseInt(getComputedStyle(overlay).getPropertyValue('--intro-duration'), 10);
-    
-    document.body.classList.add('intro-active');
-    
-    let particles = [];
-    let animationFrameId;
-
-    // Inside initIntroAnimation function in static/js/script.js
-    INTRO_CONFIG.TEXT.split('').forEach((char, index) => {
-    const span = document.createElement('span');
-    span.textContent = char === ' ' ? '\u00A0' : char;
+    const overlay = document.getElementById('intro-overlay');
+    const textContainer = document.getElementById('intro-text');
+    const formulaContainer = document.getElementById('formula-container');
+    const introDuration = parseInt(getComputedStyle(overlay).getPropertyValue('--intro-duration'), 10);
     
-    // index * 150 slows down the typing speed (was 100)
-    // + 6500ms delay ensures it starts after "Presents" is fully visible
-    span.style.animationDelay = `${index * 150 + 6500}ms`; 
-    textContainer.appendChild(span);
-    });
+    document.body.classList.add('intro-active');
+    
+    let particles = [];
+    let animationFrameId;
+
+    // Helper function to create spans with specific timing
+    function typeify(text, targetElement, baseDelay, charSpeed) {
+        text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            // Uses your existing scaleInFadeIn animation from CSS
+            span.style.animationDelay = `${index * charSpeed + baseDelay}ms`; 
+            targetElement.appendChild(span);
+        });
+    }
+
+    // Line 1: ERA 2026 (Fast & Smooth)
+    const eraContainer = document.getElementById('intro-era');
+    if (eraContainer) typeify(INTRO_CONFIG.ERA_TEXT, eraContainer, 800, 50);
+
+    // Line 2: Presents (Fast & Smooth)
+    const presentsContainer = document.getElementById('intro-presents');
+    if (presentsContainer) typeify(INTRO_CONFIG.PRESENTS_TEXT, presentsContainer, 4000, 50);
+
+    // Line 3: Dhruv Vaishnav (Your existing name animation - slower)
+    typeify(INTRO_CONFIG.TEXT, textContainer, 6000, 150);
 
     function createFormulaParticle() {
         const particleEl = document.createElement('div');
