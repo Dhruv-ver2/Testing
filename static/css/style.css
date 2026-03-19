@@ -216,6 +216,7 @@ body.intro-active {
     text-align: left;
     display: flex;
     flex-wrap: wrap;
+    transition: opacity 1s ease-out;
 }
 
 /* Animation timings remain the same for the sequence */
@@ -238,11 +239,11 @@ body.intro-active {
 
 #intro-presents {
     opacity: 1;
-}
-
-#intro-presents {
-    animation: fadeInStay 2s ease-in-out forwards;
-    animation-delay: 4.5s;
+    /* This animation will trigger the fade-out */
+    animation: fadeOutContainer 0.8s ease forwards;
+    /* 8.5s ensures it stays visible through the name reveal 
+       but disappears exactly as the overlay starts its 9.5s transition */
+    animation-delay: 8.5s; 
 }
 
 @keyframes fadeInOut {
@@ -255,11 +256,10 @@ body.intro-active {
 @keyframes fadeOutContainer {
     from { 
         opacity: 1; 
-        transform: translateY(0); 
     }
     to { 
         opacity: 0; 
-        transform: translateY(-8px); 
+        /* Removing translateY to ensure no "jumping" during the exit */
     }
 }
 
