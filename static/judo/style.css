@@ -325,51 +325,51 @@ body.theme-metallic-sky .theme-option-btn:hover {
         padding: 20px 20px 40px 20px;
     }
 
-    /* Restored heading to 2.5rem */
+    /* Further reduced size for the main heading */
     .judo-header h1 {
-        font-size: 2.5rem;
+        font-size: 1.8rem; /* Reduced from 2.5rem */
         display: flex;
         flex-direction: column; 
         align-items: center;
+        line-height: 1.2;
     }
 
+    /* Further reduced size for the subtitle part of the heading */
     .judo-title-sub {
-        font-size: 1.8rem;
+        font-size: 1.3rem; /* Reduced from 1.8rem */
     }
 
-    .theme-toggle {
-        width: 40px;  /* Reduced from 50px */
-        height: 40px; /* Reduced from 50px */
-    }
-
-
-    * Reduced the size of the actual SVG icon inside */
-    .theme-toggle svg {
-        width: 18px;  /* Reduced from 24px */
-        height: 18px; /* Reduced from 24px */
-    }
-
-    /* Adjusted the menu position to account for the smaller button */
-    .theme-options {
-        top: 50px;    /* Adjusted from 60px */
-        width: 180px; /* Slightly narrower menu for mobile */
-    }
-
-    
-    /* Reduced size of the capsule (badge) and its text */
-    .judo-badge {
-        font-size: 0.65rem; /* Reduced from 0.8rem */
-        padding: 3px 10px;  /* Reduced from 5px 15px */
-        border-width: 1.5px; /* Slightly thinner border for scale */
-    }
-
-    /* Kept description font reduced */
+    /* Further reduced size for the description text */
     .judo-subtitle {
-        font-size: 1rem;
-        margin: 15px auto;
-        padding: 0 10px;
+        font-size: 0.9rem; /* Reduced from 1rem */
+        margin: 12px auto;
+        padding: 0 15px;
     }
 
+    /* Further reduced size for the Python/Django/SQL capsule */
+    .judo-badge {
+        font-size: 0.55rem; /* Reduced from 0.65rem */
+        padding: 2px 8px;   /* Even tighter padding */
+        border-width: 1px;  /* Thinner border for the smaller scale */
+    }
+
+    /* Further reduced size for the theme toggle icon and container */
+    .theme-toggle {
+        width: 35px;  /* Reduced from 40px */
+        height: 35px; /* Reduced from 40px */
+    }
+
+    .theme-toggle svg {
+        width: 16px;  /* Reduced from 18px */
+        height: 16px; /* Reduced from 18px */
+    }
+
+    .theme-options {
+        top: 45px;    /* Adjusted for the smaller button */
+        width: 170px;
+    }
+
+    /* Maintaining existing mobile button and grid logic */
     .judo-actions {
         display: flex;
         flex-direction: column;
