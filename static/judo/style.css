@@ -373,7 +373,7 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .judo-actions {
         display: flex;
         flex-direction: column;
-        gap: 12px;         /* Slightly tighter gap */
+        gap: 12px;
         align-items: center;
     }
 
