@@ -57,7 +57,7 @@ body {
 #judo-hero {
     min-height: 100vh;
     padding: 10vh 5vw;
-    /* Keep only the original radial glow for the light theme */
+    /* Original clean radial glow for PC and Light Theme */
     background: radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
     display: flex;
     justify-content: center;
@@ -65,11 +65,6 @@ body {
     z-index: 1;
 }
 
-body.theme-metallic-sky #judo-hero {
-    background: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
-        radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
-}
 
 .judo-container {
     max-width: 1200px; 
@@ -366,6 +361,12 @@ body.theme-metallic-sky .theme-option-btn:hover {
     .theme-toggle svg {
         width: 16px;
         height: 16px;
+    }
+
+    body.theme-metallic-sky #judo-hero {
+        background: 
+            linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
+            radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
     }
 
     .theme-options {
