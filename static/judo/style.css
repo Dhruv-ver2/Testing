@@ -57,14 +57,18 @@ body {
 #judo-hero {
     min-height: 100vh;
     padding: 10vh 5vw;
-    /* Updated background: Added a linear gradient layer to darken the left side */
-    background: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, transparent 50%),
-        radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
+    /* Keep only the original radial glow for the light theme */
+    background: radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
     display: flex;
     justify-content: center;
     position: relative;
     z-index: 1;
+}
+
+body.theme-metallic-sky #judo-hero {
+    background: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
+        radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
 }
 
 .judo-container {
