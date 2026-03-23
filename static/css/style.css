@@ -1229,24 +1229,21 @@ body.intro-active {
 @media (max-width: 768px) {
     /* Significantly raises the heading higher on the mobile screen */
     .hero-content {
-        transform: translateY(-25%);
+        /* Shifted further up from -25% to -35% to move the whole unit higher */
+        transform: translateY(-35%); 
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 90%; /* Ensures the content doesn't hit screen edges */
+        width: 92%; 
         margin: 0 auto;
     }
 
     .hero-headline {
         font-size: 2.2rem;
-        /* FIXED HEIGHT: We are forcing the box to be 6rem tall. 
-           This is roughly 2.5 lines of text height. */
         height: 6rem; 
         line-height: 1.2;
-        margin-bottom: 1rem;
-        
-        /* FLEX ALIGNMENT: This keeps the text centered inside the 6rem box 
-           so the gap to the description below stays mathematically constant. */
+        /* Reduced margin to bring subheadline a bit closer to the fixed box */
+        margin-bottom: 0.5rem; 
         display: flex;
         align-items: center; 
         justify-content: center;
@@ -1255,19 +1252,18 @@ body.intro-active {
     }
 
     .hero-subheadline {
-        /* This position is now 'locked' relative to the 6rem box above it */
-        font-size: 1.1rem;
+        /* Reduced font size as requested */
+        font-size: 0.95rem; /* Reduced from 1.1rem */
         line-height: 1.5;
+        max-width: 85%; /* Slightly tighter for a cleaner "blurb" look */
         margin-top: 0; 
-        opacity: 0.9;
+        opacity: 0.85; /* Softened slightly to keep hierarchy on the main title */
         text-align: center;
     }
 
+    /* Keep the cursor matched to the headline size */
     .typewriter-cursor {
         height: 2.2rem;
-        /* Ensure cursor doesn't wrap alone to a new line */
-        display: inline-block; 
-        margin-left: 2px;
     }
     /* Keeps the scroll indicator at the 5rem position you requested */
     .scroll-indicator {
