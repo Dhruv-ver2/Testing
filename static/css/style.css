@@ -1280,4 +1280,26 @@ body.intro-active {
         bottom: 5rem; 
     }
 
+    /* 1. Reduce the "About Me" heading size */
+    .about-me .section-title {
+        font-size: 1.8rem; /* Reduced from 2rem to match the new Hero scale */
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.5px;
+    }
+
+    /* 2. Refine the main bio description */
+    .about-me .bio-text {
+        font-size: 0.95rem; /* Matches the hero-subheadline size for a unified feel */
+        line-height: 1.6;    /* Keeps it readable but compact */
+        max-width: 92%;     /* Allows it to spread out like the hero text */
+        margin: 0 auto 2rem auto;
+        opacity: 0.9;
+        text-align: center;
+    }
+
+    /* 3. Tighten the overall section padding */
+    .about-me {
+        padding: 4rem 1.5rem; /* Reduced top/bottom padding for a snappier scroll */
+    }
+
 }
