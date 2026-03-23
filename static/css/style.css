@@ -439,10 +439,17 @@ body.intro-active {
 }
 
 .hero-subheadline {
-    font-size: var(--font-size-p);
+    /* Reduced from 1.5rem to 1.15rem for a more professional, sleek look */
+    font-size: 1.15rem; 
     font-weight: 400;
     color: #1976d2;
-    text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
+    text-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+    
+    /* Layout improvements for wide screens */
+    max-width: 700px;
+    margin: 0.5rem auto 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 .scroll-indicator {
@@ -1229,41 +1236,44 @@ body.intro-active {
 @media (max-width: 768px) {
     /* Significantly raises the heading higher on the mobile screen */
     .hero-content {
-        /* Shifted further up from -25% to -35% to move the whole unit higher */
-        transform: translateY(-35%); 
+        /* Pushing significantly higher from -35% to -55% */
+        transform: translateY(-55%); 
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 92%; 
+        width: 90%; 
         margin: 0 auto;
+        /* Ensures the text doesn't feel cramped against the top */
+        padding-top: 1rem; 
     }
 
     .hero-headline {
-        font-size: 2.2rem;
-        height: 6rem; 
+        font-size: 2.1rem; /* Slightly smaller to help the upward "lift" */
+        height: 5.5rem;    /* Reduced height box to bring description closer */
         line-height: 1.2;
-        /* Reduced margin to bring subheadline a bit closer to the fixed box */
-        margin-bottom: 0.5rem; 
+        margin-bottom: 0.2rem; /* Minimal gap for maximum upward pull */
         display: flex;
         align-items: center; 
         justify-content: center;
         text-align: center;
-        width: 100%;
     }
 
     .hero-subheadline {
-        /* Reduced font size as requested */
-        font-size: 0.95rem; /* Reduced from 1.1rem */
-        line-height: 1.5;
-        max-width: 85%; /* Slightly tighter for a cleaner "blurb" look */
-        margin-top: 0; 
-        opacity: 0.85; /* Softened slightly to keep hierarchy on the main title */
+        font-size: 0.95rem; 
+        line-height: 1.4;
+        /* INCREASED WIDTH: Changed from 80% to 92% to pull text to the sides */
+        width: 92%;
+        max-width: 500px; /* High enough to stay out of the way on most phones */
+        margin: 0 auto;
+        opacity: 0.8;
         text-align: center;
+        /* Balanced word wrapping */
+        word-spacing: -0.5px; 
     }
 
-    /* Keep the cursor matched to the headline size */
+    /* Adjust cursor to match new headline size */
     .typewriter-cursor {
-        height: 2.2rem;
+        height: 2.1rem;
     }
     /* Keeps the scroll indicator at the 5rem position you requested */
     .scroll-indicator {
