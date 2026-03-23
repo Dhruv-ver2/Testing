@@ -1229,37 +1229,46 @@ body.intro-active {
 @media (max-width: 768px) {
     /* Significantly raises the heading higher on the mobile screen */
     .hero-content {
-        /* Moves the content up and ensures it stays centered as a unit */
         transform: translateY(-25%);
         display: flex;
         flex-direction: column;
         align-items: center;
-        text-align: center;
+        width: 90%; /* Ensures the content doesn't hit screen edges */
+        margin: 0 auto;
     }
 
     .hero-headline {
         font-size: 2.2rem;
-        /* THE STABILIZER: Reserves space for exactly 2 lines of text */
-        /* Calculation: font-size (2.2rem) * line-height (approx 1.2) * 2 lines */
-        min-height: 5.5rem; 
-        margin-bottom: 0.5rem;
+        /* FIXED HEIGHT: We are forcing the box to be 6rem tall. 
+           This is roughly 2.5 lines of text height. */
+        height: 6rem; 
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        
+        /* FLEX ALIGNMENT: This keeps the text centered inside the 6rem box 
+           so the gap to the description below stays mathematically constant. */
         display: flex;
-        flex-direction: column;
-        justify-content: center; /* Keeps single-line text vertically centered in the reserved space */
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+        width: 100%;
     }
 
     .hero-subheadline {
-        font-size: 1.1rem; /* Slightly reduced for better mobile flow */
-        max-width: 90%;
-        line-height: 1.4;
-        margin: 0 auto;
-        /* This text will now remain stationary regardless of title length */
+        /* This position is now 'locked' relative to the 6rem box above it */
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin-top: 0; 
+        opacity: 0.9;
+        text-align: center;
     }
 
     .typewriter-cursor {
         height: 2.2rem;
+        /* Ensure cursor doesn't wrap alone to a new line */
+        display: inline-block; 
+        margin-left: 2px;
     }
-
     /* Keeps the scroll indicator at the 5rem position you requested */
     .scroll-indicator {
         bottom: 5rem; 
