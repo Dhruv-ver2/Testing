@@ -1076,35 +1076,7 @@ body.intro-active {
     }
 }
 
-/* --- TIMELINE HORIZONTAL ANCHOR LINE --- */
 
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    /* Stops exactly at the center of the last dot */
-    bottom: 25px; 
-    width: 2px;
-    background-color: #90caf9;
-    z-index: 1;
-}
-
-/* 2. Create the Horizontal 'L-Joint' Tail */
-.timeline-item:last-child::after {
-    content: '';
-    position: absolute;
-    /* Mathematically centered to the 18px dot (18/2 + 5px top offset = 14px) */
-    top: 14px; 
-    left: 20px; 
-    width: 50px; 
-    height: 2px;
-    background-color: #1976d2;
-    box-shadow: 0 0 8px rgba(25, 118, 210, 0.5);
-    z-index: 1;
-    /* Creates a rounded 'elbow' joint where it meets the vertical line */
-    border-radius: 0 2px 2px 0; 
-}
 /* ==========================================================================
    REFINED MULTI-LINE MINIMALIST FOOTER
    ========================================================================== */
@@ -1551,33 +1523,4 @@ body.intro-active {
     .main-footer {
         padding: 2rem 1.5rem; /* Reduced padding for a cleaner finish */
     }
-
-    .timeline-item:last-child::after {
-        left: 0px; /* Adjusts for the 0px offset we set for mobile dots */
-        width: 40px; /* Slightly shorter on mobile to keep it sleek */
-        bottom: -5px;
-    }
-
-   .timeline::before {
-        left: 8px !important;
-        /* Adjusted for mobile dot positioning */
-        bottom: 22px !important; 
-    }
-
-    .timeline-item:last-child::after {
-        /* Adjusted for the 14px mobile dot (14/2 + 5px top = 12px) */
-        top: 12px !important; 
-        left: 8px !important; 
-        width: 35px !important;
-        bottom: auto !important; /* Clears any previous bottom positioning */
-    }
-
-/* --- THEME SYNC --- */
-body.theme-metallic-sky .timeline::before {
-    background-color: rgba(129, 212, 250, 0.3);
-}
-
-body.theme-metallic-sky .timeline-item:last-child::after {
-    background-color: var(--color-light-blue-accent);
-    box-shadow: 0 0 12px rgba(129, 212, 250, 0.8);
 }
