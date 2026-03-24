@@ -1435,4 +1435,14 @@ body.intro-active {
         height: 14px;
         left: 0px; 
     }
+
+    .more-info-content.expanded {
+        /* Mobile text is long, so we give it even more room */
+        max-height: 2500px; 
+    }
+    
+    /* Ensure the container doesn't hide the 2026 content */
+    .more-info-content {
+        overflow: visible; /* Allows the content to show if it exceeds the box slightly */
+    }
 }
