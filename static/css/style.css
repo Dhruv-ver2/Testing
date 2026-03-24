@@ -1496,4 +1496,30 @@ body.intro-active {
         font-size: 0.85rem !important;
         margin-bottom: 1rem !important;
     }
+
+    .email-link {
+        /* Reduced from 1.1rem to 0.9rem to match the bio/subheadline scale */
+        font-size: 0.9rem !important; 
+        letter-spacing: 0.3px;
+        opacity: 0.8;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin: 0.2rem 0;
+    }
+
+    /* 2. Refine the Footer Icons and Copyright */
+    .footer-socials .footer-link i {
+        font-size: 1.6rem; /* Slightly smaller icons for a tighter footer */
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem; /* Subtle and minimalist */
+        margin-top: 0.8rem;
+    }
+
+    /* 3. Tighten the Footer Container */
+    .main-footer {
+        padding: 2rem 1.5rem; /* Reduced padding for a cleaner finish */
+    }
 }
