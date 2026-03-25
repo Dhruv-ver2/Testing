@@ -107,91 +107,80 @@
 
     .script-card {
         width: 85%; 
-        padding: 10px 16px;
-        
-        /* 4:1 Ratio Logic */
-        min-height: 65px; 
-        
+        padding: 6px 14px; /* Reduced vertical padding further */
+        min-height: 55px; /* Shaved off more height for a tighter rectangle */
         display: flex;
         flex-direction: column;
         justify-content: center;
-        
         margin-left: 0;
         margin-right: auto;
         border-radius: 3px 3px 0 3px; 
-        
-        /* IMPORTANT: Remove overflow:hidden so drawer and arrow can show */
         overflow: visible; 
         position: relative;
     }
 
+    /* Smaller card title */
     .script-card h2 {
-        font-size: 0.85rem;
+        font-size: 0.75rem; /* Reduced from 0.85rem */
         margin: 0;
+        letter-spacing: 0.2px;
     }
 
+    /* Smaller tag */
+    .tag {
+        font-size: 0.45rem;
+        padding: 1px 3px;
+    }
+
+    /* Smaller description text */
     .script-card > p {
-        font-size: 0.65rem;
-        line-height: 1.2;
-        margin-top: 2px;
-        /* Limits description to keep the ribbon slim */
+        font-size: 0.6rem; /* Reduced from 0.65rem */
+        line-height: 1.1;
+        margin-top: 1px;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden; 
+        opacity: 0.8;
     }
 
-    /* RESTORING THE MINISQUARE ARROW */
+    /* Adjust the mini-square arrow to match the smaller text */
     .script-card::after {
         content: "▼";
         position: absolute;
-        bottom: -16px; /* Positioned exactly below the ribbon */
+        bottom: -14px; 
         right: -1px; 
-        width: 30px;
-        height: 16px; 
+        width: 26px; /* Slightly narrower */
+        height: 14px; 
         background: var(--surface);
         border: 1px solid var(--border);
         border-top: none; 
-        border-radius: 0 0 4px 4px;
+        border-radius: 0 0 3px 3px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.6rem;
+        font-size: 0.5rem;
         color: var(--text-muted);
         z-index: 10;
     }
 
-    /* RESTORING THE LOGIC BRIDGE */
-    .script-card::before {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        right: 0;
-        width: 28px;
-        height: 3px;
-        background: var(--surface);
-        z-index: 11; 
-    }
-
-    /* RESTORING EXPANSION ABILITY */
-    .script-card.active {
-        /* Allow the card to grow when active */
-        max-height: none; 
-    }
-
+    /* Tighter spacing for the expanded content drawer */
     .script-card.active .content-drawer {
-        display: block;
-        max-height: 1000px;
-        opacity: 1;
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px solid var(--border);
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .meta-item p {
+        font-size: 0.65rem;
+    }
+
+    h4 {
+        font-size: 0.55rem;
     }
 
     .btn {
-        padding: 8px 12px;
-        font-size: 0.7rem;
-        margin-top: 10px;
+        padding: 6px 10px;
+        font-size: 0.65rem;
     }
 }
         
